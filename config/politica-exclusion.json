@@ -1,0 +1,521 @@
+{
+  "$comentario": "Reglas de la política de exclusión documental de CMF Academy. Obligatoria para todo inventario, importación y carga. Documento canónico: docs/politica-de-exclusion-documental.md. Cambiar este archivo exige un pull request revisado por el administrador y subir 'version'.",
+  "version": "1.1.1",
+  "vigente_desde": "2026-11-26",
+  "decisiones": {
+    "allowed": "Puede importarse. Sigue el flujo normal de derechos de autor, distribución y permiso de IA.",
+    "review_required": "Material potencialmente incorporable. No se copia ni se procesa hasta una revisión humana individual.",
+    "quarantined": "Hay incertidumbre sobre si pertenece a un caso o proyecto clínico. No se copia ni se procesa hasta que un administrador lo revise.",
+    "excluded": "No se copia, no se procesa con IA, no se indexa, no se publica. Solo se registra en el inventario de exclusión con su motivo. Nunca se modifica el original en Google Drive."
+  },
+  "reglas": [
+    {
+      "codigo": "EXC-SISTEMA",
+      "decision": "excluded",
+      "liberable": false,
+      "titulo": "Archivo de sistema o acceso directo",
+      "descripcion": "Archivos del sistema operativo, accesos directos y miniaturas sin valor documental (.DS_Store, Thumbs.db, desktop.ini, .lnk, accesos directos de Drive)."
+    },
+    {
+      "codigo": "EXC-DICOM",
+      "decision": "excluded",
+      "liberable": false,
+      "titulo": "Estudio DICOM",
+      "descripcion": "Imágenes DICOM, con o sin extensión: por extensión, tipo MIME, nombre DICOMDIR, firma 'DICM' en el byte 128 o ubicación dentro de una carpeta DICOM."
+    },
+    {
+      "codigo": "EXC-PROYECTO-PROPLAN",
+      "decision": "excluded",
+      "liberable": false,
+      "titulo": "Proyecto nativo de ProPlan CMF",
+      "descripcion": "Proyecto o planificación quirúrgica de ProPlan CMF (Materialise)."
+    },
+    {
+      "codigo": "EXC-PROYECTO-MIMICS",
+      "decision": "excluded",
+      "liberable": false,
+      "titulo": "Proyecto nativo de Mimics / Mimics Medical",
+      "descripcion": "Proyecto de segmentación de Mimics o Mimics Medical (Materialise)."
+    },
+    {
+      "codigo": "EXC-PROYECTO-3MATIC",
+      "decision": "excluded",
+      "liberable": false,
+      "titulo": "Proyecto nativo de 3-matic / 3-matic Medical",
+      "descripcion": "Proyecto de diseño de 3-matic o 3-matic Medical (Materialise)."
+    },
+    {
+      "codigo": "EXC-PROYECTO-DECLARADO",
+      "decision": "excluded",
+      "liberable": false,
+      "titulo": "Formato de proyecto declarado por el administrador",
+      "descripcion": "Extensión incluida por instrucción del administrador cuyo programa de origen no se ha confirmado en fuentes públicas ni en el inventario. Se excluye igual."
+    },
+    {
+      "codigo": "EXC-PROYECTO-IPS",
+      "decision": "excluded",
+      "liberable": false,
+      "titulo": "Caso de IPS CaseDesigner",
+      "descripcion": "Archivos de un caso de IPS CaseDesigner. No se identifican por extensión, sino por estructura: carpeta del programa, estudio DICOM del caso, escaneos dentales (superior, inferior, oclusión) y archivos de férula exportados."
+    },
+    {
+      "codigo": "EXC-DATOS-PACIENTE",
+      "decision": "excluded",
+      "liberable": false,
+      "titulo": "Datos de paciente",
+      "descripcion": "Carpetas de pacientes, protocolos, epicrisis o fichas, y archivos con identificadores directos (nombre, RUT, fecha de nacimiento, número de ficha)."
+    },
+    {
+      "codigo": "EXC-AUXILIAR-SOFTWARE",
+      "decision": "excluded",
+      "liberable": false,
+      "titulo": "Archivo auxiliar, respaldo o temporal de un programa de planificación",
+      "descripcion": "Dependencias, configuraciones, plantillas internas, respaldos, autoguardados y temporales ubicados en una carpeta de ProPlan CMF, Mimics, 3-matic o IPS CaseDesigner, o junto a un proyecto nativo."
+    },
+    {
+      "codigo": "EXC-DERIVADO-CASO",
+      "decision": "excluded",
+      "liberable": true,
+      "titulo": "Exportación derivada de un caso clínico",
+      "descripcion": "Imágenes, capturas, videos, comprimidos y otros archivos no documentales ubicados en la carpeta de un caso clínico (la que contiene un proyecto nativo, un estudio DICOM o datos de paciente). Solo un administrador puede liberarlos, con autorización expresa registrada."
+    },
+    {
+      "codigo": "EXC-MODELO-3D-CLINICO",
+      "decision": "excluded",
+      "liberable": true,
+      "titulo": "Modelo 3D derivado de un caso clínico",
+      "descripcion": "STL, OBJ u otro modelo 3D ubicado en la carpeta de un caso clínico o de un programa de planificación. Excluido hasta una revisión y autorización expresa del administrador."
+    },
+    {
+      "codigo": "CUA-DOCUMENTO-EN-CASO",
+      "decision": "quarantined",
+      "liberable": true,
+      "titulo": "Documento dentro de un caso clínico",
+      "descripcion": "PDF, documento o presentación ubicado en la carpeta de un caso clínico. Puede ser un informe de planificación con datos del paciente o un artículo de respaldo."
+    },
+    {
+      "codigo": "CUA-CARPETA-SOFTWARE",
+      "decision": "quarantined",
+      "liberable": true,
+      "titulo": "Material dentro de una carpeta de un programa de planificación",
+      "descripcion": "Documentos, imágenes o videos en una carpeta de ProPlan CMF, Mimics, 3-matic o IPS CaseDesigner, sin evidencia de un caso concreto. Pueden ser clases o capturas de casos."
+    },
+    {
+      "codigo": "CUA-MODELO-3D-PLANIFICACION",
+      "decision": "quarantined",
+      "liberable": true,
+      "titulo": "Modelo 3D con nombre de planificación quirúrgica",
+      "descripcion": "Modelo 3D fuera de un caso identificado, cuyo nombre sugiere una planificación (movimiento, férula, guía, segmentación, osteotomía, intraoral, preoperatorio)."
+    },
+    {
+      "codigo": "CUA-MODELO-3D-SIN-PROCEDENCIA",
+      "decision": "quarantined",
+      "liberable": true,
+      "titulo": "Modelo 3D sin procedencia académica acreditada",
+      "descripcion": "Modelo 3D que no está en una carpeta declarada como de modelos educativos. No se excluye por ser STL u OBJ: espera revisión humana."
+    },
+    {
+      "codigo": "CUA-COMPRIMIDO",
+      "decision": "quarantined",
+      "liberable": true,
+      "titulo": "Archivo comprimido de contenido desconocido",
+      "descripcion": "ZIP, RAR, 7z y similares. Su contenido no se inspecciona sin autorización (podría contener estudios o proyectos de pacientes)."
+    },
+    {
+      "codigo": "CUA-IMAGEN-CLINICA-POSIBLE",
+      "decision": "quarantined",
+      "liberable": true,
+      "titulo": "Posible fotografía clínica",
+      "descripcion": "Fotografía con nombre de cámara o teléfono (IMG_1234, DSC_1234, fecha y hora) fuera de una carpeta de paciente."
+    },
+    {
+      "codigo": "CUA-FORMATO-DESCONOCIDO",
+      "decision": "quarantined",
+      "liberable": true,
+      "titulo": "Formato no reconocido",
+      "descripcion": "Extensión o tipo MIME que la política no reconoce. Podría ser un formato propietario de un programa de planificación."
+    },
+    {
+      "codigo": "EXC-PRESENTACION",
+      "decision": "excluded",
+      "liberable": true,
+      "titulo": "Presentación (PowerPoint, Keynote o Presentaciones de Google)",
+      "descripcion": "Por decisión del administrador (26-11-2026), las presentaciones no se importan a CMF Academy: pueden contener fotografías de pacientes, datos clínicos, capturas de software y material protegido. Solo un administrador puede liberar una presentación concreta tras revisarla de forma individual."
+    },
+    {
+      "codigo": "EXC-DUPLICADO",
+      "decision": "excluded",
+      "liberable": true,
+      "titulo": "Copia sobrante de un documento ya incluido",
+      "descripcion": "Se importa una sola copia de cada documento. Las demás (mismo SHA-256, o mismo DOI o PMID) quedan registradas como duplicadas de la copia conservada y no se importan. Los archivos de Google Drive no se borran ni se modifican."
+    },
+    {
+      "codigo": "REV-MODELO-3D-EDUCATIVO",
+      "decision": "review_required",
+      "liberable": true,
+      "titulo": "Modelo 3D en una carpeta declarada como educativa",
+      "descripcion": "Modelo 3D ubicado en una carpeta que el administrador declaró como de modelos anatómicos educativos. Se revisa uno por uno antes de incorporarlo (procedencia, licencia y ausencia de datos de paciente)."
+    }
+  ],
+  "extensiones_excluidas": [
+    {
+      "extension": "dcm",
+      "regla": "EXC-DICOM",
+      "programa": "Estándar DICOM",
+      "evidencia": "verified",
+      "fuente": "Estándar DICOM; 100 archivos .dcm en el inventario de Drive"
+    },
+    {
+      "extension": "dicom",
+      "regla": "EXC-DICOM",
+      "programa": "Estándar DICOM",
+      "evidencia": "verified",
+      "fuente": "Estándar DICOM"
+    },
+    {
+      "extension": "sppc",
+      "regla": "EXC-PROYECTO-PROPLAN",
+      "programa": "ProPlan CMF",
+      "evidencia": "verified",
+      "fuente": "Inventario de Drive: proyecto de planificación ortognática (tipo MIME application/sppc) junto a su segmentación y su DICOM"
+    },
+    {
+      "extension": "mcs",
+      "regla": "EXC-PROYECTO-MIMICS",
+      "programa": "Mimics / Mimics Medical",
+      "evidencia": "verified",
+      "fuente": "Inventario de Drive: 'Segmentación inicial' (tipo MIME application/mcs); tutoriales de 3-matic que importan proyectos Mimics .mcs; filext.com"
+    },
+    {
+      "extension": "mxp",
+      "regla": "EXC-PROYECTO-3MATIC",
+      "programa": "3-matic / 3-matic Medical",
+      "evidencia": "declared",
+      "fuente": "Lista del administrador. No confirmada en fuentes públicas accesibles; no aparece en el inventario actual"
+    },
+    {
+      "extension": "sgc",
+      "regla": "EXC-PROYECTO-DECLARADO",
+      "programa": "Por confirmar (lista del administrador)",
+      "evidencia": "declared",
+      "fuente": "Lista del administrador. No confirmada en fuentes públicas accesibles; no aparece en el inventario actual"
+    }
+  ],
+  "tipos_mime_excluidos": [
+    {
+      "mime": "application/dicom",
+      "regla": "EXC-DICOM"
+    },
+    {
+      "mime": "application/sppc",
+      "regla": "EXC-PROYECTO-PROPLAN"
+    },
+    {
+      "mime": "application/mcs",
+      "regla": "EXC-PROYECTO-MIMICS"
+    }
+  ],
+  "nombres_excluidos": [
+    {
+      "nombre": "dicomdir",
+      "regla": "EXC-DICOM"
+    }
+  ],
+  "archivos_de_sistema": {
+    "nombres": [
+      ".ds_store",
+      "thumbs.db",
+      "desktop.ini",
+      "icon\r"
+    ],
+    "extensiones": [
+      "lnk",
+      "url",
+      "webloc"
+    ],
+    "tipos_mime": [
+      "application/vnd.google-apps.shortcut",
+      "application/x-ms-shortcut"
+    ]
+  },
+  "programas": [
+    {
+      "id": "proplan",
+      "nombre": "ProPlan CMF",
+      "regla_proyecto": "EXC-PROYECTO-PROPLAN",
+      "patrones_carpeta": [
+        "pro ?plan",
+        "surgicase"
+      ]
+    },
+    {
+      "id": "mimics",
+      "nombre": "Mimics / Mimics Medical",
+      "regla_proyecto": "EXC-PROYECTO-MIMICS",
+      "patrones_carpeta": [
+        "mimics"
+      ]
+    },
+    {
+      "id": "3matic",
+      "nombre": "3-matic / 3-matic Medical",
+      "regla_proyecto": "EXC-PROYECTO-3MATIC",
+      "patrones_carpeta": [
+        "3[ -]?matic"
+      ]
+    },
+    {
+      "id": "ips",
+      "nombre": "IPS CaseDesigner",
+      "regla_proyecto": "EXC-PROYECTO-IPS",
+      "patrones_carpeta": [
+        "\\bips\\b",
+        "case ?designer",
+        "kls ?martin"
+      ],
+      "nota": "Sin extensión propia verificada. Sus instrucciones de uso (v2.5) indican que crea el modelo del paciente desde DICOM de CBCT, admite escaneos dentales en STL, genera archivos de férula y permite importar planes quirúrgicos. Un caso se reconoce por esa estructura, nunca por una extensión supuesta."
+    }
+  ],
+  "patrones_carpeta_dicom": [
+    "^dicom$",
+    "^dicoms?\\b",
+    "\\bdicom\\b"
+  ],
+  "patrones_carpeta_paciente": [
+    "\\bpacientes?\\b",
+    "epicrisis",
+    "protocolos? (y|operatorios?)",
+    "ficha cl[ií]nica",
+    "\\bpaciente\\s*\\d+",
+    "^\\[carpeta de paciente\\]$",
+    "^\\[caso cl[ií]nico\\]$",
+    "\\bpcte\\.?\\s*\\d*",
+    "^cc\\.\\s",
+    "^casos? cl[ií]nicos?\\b"
+  ],
+  "patrones_carpeta_estudio": [
+    "^tc$",
+    "^tac$",
+    "^cbct$",
+    "^cone ?beam$",
+    "tomograf[ií]a"
+  ],
+  "patrones_escaneo_dental": [
+    "intraoral",
+    "escaneo (superior|inferior|de oclusi[oó]n)",
+    "upper ?scan",
+    "lower ?scan",
+    "occlusion ?scan",
+    "maxilar intraoral",
+    "mand[ií]bula intraoral"
+  ],
+  "patrones_auxiliar": [
+    "\\.bak$",
+    "\\.tmp$",
+    "\\.temp$",
+    "~$",
+    "^~",
+    "^\\.~lock",
+    "autosave",
+    "auto-?guardado",
+    "\\bbackup\\b",
+    "\\brespaldo\\b",
+    "\\.old$"
+  ],
+  "patrones_nombre_planificacion": [
+    "movimiento",
+    "planificaci[oó]n",
+    "planning",
+    "segmentaci[oó]n",
+    "segmentation",
+    "f[eé]rula",
+    "splint",
+    "wafer",
+    "gu[ií]a",
+    "guide",
+    "osteotom",
+    "le ?fort",
+    "bsso",
+    "sagital",
+    "mentoplast",
+    "genioplast",
+    "avance",
+    "retroceso",
+    "impacta",
+    "canteo",
+    "\\byaw\\b",
+    "intraoral",
+    "pre-?op",
+    "post-?op",
+    "cortad",
+    "virtual"
+  ],
+  "patrones_camara": [
+    "^img[_-]?\\d{3,}",
+    "^dsc[_-]?\\d{3,}",
+    "^dscn\\d{3,}",
+    "^p\\d{7}",
+    "^\\d{8}[_-]\\d{6}",
+    "^photo[_-]?\\d",
+    "^whatsapp image"
+  ],
+  "formatos": {
+    "dicom": [
+      "dcm",
+      "dicom"
+    ],
+    "modelo_3d": [
+      "stl",
+      "obj",
+      "ply",
+      "3mf",
+      "amf",
+      "off",
+      "wrl",
+      "vrml",
+      "fbx",
+      "dae",
+      "glb",
+      "gltf",
+      "3ds"
+    ],
+    "comprimido": [
+      "zip",
+      "rar",
+      "7z",
+      "tar",
+      "gz",
+      "tgz",
+      "bz2",
+      "xz"
+    ],
+    "presentacion": [
+      "ppt",
+      "pptx",
+      "pps",
+      "ppsx",
+      "pot",
+      "potx",
+      "key",
+      "odp"
+    ],
+    "presentacion_mime": [
+      "application/vnd.apple.keynote",
+      "application/vnd.google-apps.presentation",
+      "application/vnd.ms-powerpoint",
+      "application/vnd.ms-powerpoint.presentation.macroenabled.12",
+      "application/vnd.oasis.opendocument.presentation",
+      "application/vnd.openxmlformats-officedocument.presentationml.presentation",
+      "application/vnd.openxmlformats-officedocument.presentationml.slideshow",
+      "application/vnd.openxmlformats-officedocument.presentationml.template"
+    ],
+    "documento": [
+      "pdf",
+      "doc",
+      "docx",
+      "odt",
+      "rtf",
+      "txt",
+      "md",
+      "epub",
+      "xls",
+      "xlsx",
+      "ods",
+      "csv"
+    ],
+    "documento_mime": [
+      "application/epub+zip",
+      "application/msword",
+      "application/rtf",
+      "application/vnd.google-apps.document",
+      "application/vnd.google-apps.spreadsheet",
+      "application/vnd.ms-excel",
+      "application/vnd.oasis.opendocument.spreadsheet",
+      "application/vnd.oasis.opendocument.text",
+      "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet",
+      "application/vnd.openxmlformats-officedocument.wordprocessingml.document"
+    ],
+    "imagen": [
+      "jpg",
+      "jpeg",
+      "png",
+      "bmp",
+      "tif",
+      "tiff",
+      "gif",
+      "heic",
+      "heif",
+      "webp",
+      "svg"
+    ],
+    "video": [
+      "mp4",
+      "mov",
+      "m4v",
+      "avi",
+      "mkv",
+      "wmv",
+      "3gp",
+      "webm",
+      "mpg",
+      "mpeg"
+    ],
+    "audio": [
+      "mp3",
+      "m4a",
+      "amr",
+      "wav",
+      "aac",
+      "ogg",
+      "flac",
+      "opus"
+    ],
+    "configuracion": [
+      "xml",
+      "ini",
+      "cfg",
+      "json",
+      "dat",
+      "db",
+      "dll",
+      "bin",
+      "log"
+    ],
+    "diseno_grafico": [
+      "ai",
+      "psd",
+      "indd",
+      "eps"
+    ]
+  },
+  "carpetas_modelos_educativos": [],
+  "lectura_de_cabecera": {
+    "bytes_maximos": 132,
+    "cuando": "Solo para archivos sin extensión o de tipo application/octet-stream que no quedaron excluidos por sus metadatos. Nunca se descarga el archivo completo para clasificarlo.",
+    "firmas": [
+      {
+        "desplazamiento": 128,
+        "bytes_ascii": "DICM",
+        "regla": "EXC-DICOM"
+      }
+    ]
+  },
+  "permitidos_explicitos": {
+    "descripcion": "Formatos que la política permite importar expresamente. Siguen el flujo normal de derechos de autor, distribución y permiso de IA (ADR-0006).",
+    "tipos": [
+      "Libros completos (PDF o EPUB)",
+      "Capítulos de libro",
+      "Artículos científicos",
+      "Apuntes y documentos propios"
+    ]
+  },
+  "duplicados": {
+    "criterios": [
+      "Mismo SHA-256 del contenido",
+      "Mismo DOI",
+      "Mismo PMID"
+    ],
+    "conservar": "La copia en la carpeta temática más específica para el documento; a igualdad, la de mayor tamaño (versión más completa) y luego la más antigua en Drive.",
+    "nota": "El importador decide con DOI o PMID cuando están en el inventario; el SHA-256 solo se calcula sobre archivos permitidos al momento de copiarlos (la base rechaza un segundo archivo con el mismo SHA-256)."
+  }
+}

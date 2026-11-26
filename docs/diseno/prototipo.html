@@ -1,0 +1,370 @@
+<!doctype html>
+<html lang="es">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>CMF Academy · Prototipo de diseño</title>
+  <meta name="description" content="Prototipo navegable del sistema de diseño de CMF Academy, con modo claro y oscuro.">
+  <script>
+    /* Aplica el tema guardado antes de pintar, para evitar un destello. */
+    (function () {
+      try {
+        var t = localStorage.getItem("cmf-theme");
+        if (t === "light" || t === "dark") document.documentElement.setAttribute("data-theme", t);
+      } catch (e) {}
+    })();
+  </script>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500&family=Inter:wght@400;500;600&family=Newsreader:ital,opsz,wght@0,6..72,400;0,6..72,500;0,6..72,600;1,6..72,400&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="tokens.css">
+  <link rel="stylesheet" href="estilos.css">
+  <style>
+    [data-screen] { display: none; }
+    [data-screen].is-active { display: block; }
+    .hero { padding: var(--space-8) 0 var(--space-6); }
+    .hero .search { max-width: 680px; padding: 12px var(--space-4); font-size: var(--text-base); border-radius: var(--radius-lg); }
+    .area-list { list-style: none; margin: 0; padding: 0; }
+    .area-list li { display: grid; grid-template-columns: 1fr auto; align-items: center; gap: var(--space-3); padding: var(--space-3) 0; border-top: var(--border-width) solid var(--color-border); }
+    .area-list li:first-child { border-top: 0; }
+    .area-list a { font-family: var(--font-serif); font-size: 1.125rem; color: var(--color-ink); text-decoration: none; font-variation-settings: "opsz" 18; }
+    .area-list a:hover { color: var(--color-accent); }
+    .area-list .sub { font-size: var(--text-xs); color: var(--color-ink-3); }
+    .queue li { display: flex; justify-content: space-between; gap: var(--space-3); padding: var(--space-2) 0; font-size: var(--text-sm); border-top: var(--border-width) solid var(--color-border); }
+    .queue li:first-child { border-top: 0; }
+    .queue { list-style: none; margin: 0; padding: 0; }
+    .theme-controls { display: flex; gap: var(--space-2); align-items: center; }
+  </style>
+</head>
+<body>
+<div class="app" data-menu="closed">
+  <div class="scrim" data-menu-toggle></div>
+
+  <aside class="sidebar" aria-label="Navegación principal">
+    <a class="wordmark" href="#inicio" aria-label="CMF Academy, inicio">
+      <span class="wordmark-name">CMF <span>Academy</span></span>
+      <span class="wordmark-sub">The Oral &amp; Maxillofacial Knowledge Platform</span>
+    </a>
+    <nav class="nav" aria-label="Secciones">
+      <a href="#inicio" data-nav="inicio"><svg class="icon" viewBox="0 0 24 24" aria-hidden="true"><path d="M3 11.5 12 4l9 7.5"/><path d="M5 10v10h14V10"/></svg>Inicio</a>
+      <a href="#biblioteca" data-nav="biblioteca"><svg class="icon" viewBox="0 0 24 24" aria-hidden="true"><path d="M4 19.5V5a1 1 0 0 1 1-1h5v16H5a1 1 0 0 1-1-.5Z"/><path d="M10 4h4v16h-4"/><path d="m15 5 4-1 1.5 15.5-4 .5"/></svg>Biblioteca</a>
+      <a href="#investigacion" data-nav="investigacion"><svg class="icon" viewBox="0 0 24 24" aria-hidden="true"><circle cx="11" cy="11" r="6.5"/><path d="m20 20-4.2-4.2"/></svg>Investigación</a>
+      <a href="#asistente" data-nav="asistente"><svg class="icon" viewBox="0 0 24 24" aria-hidden="true"><path d="M4 6a2 2 0 0 1 2-2h12a2 2 0 0 1 2 2v9a2 2 0 0 1-2 2H9l-5 4Z"/></svg>Asistente IA</a>
+      <a href="#multimedia" data-nav="multimedia"><svg class="icon" viewBox="0 0 24 24" aria-hidden="true"><rect x="3" y="4" width="18" height="16" rx="2"/><circle cx="9" cy="10" r="2"/><path d="m21 17-5-5-9 8"/></svg>Multimedia</a>
+      <a href="#comunidad" data-nav="comunidad"><svg class="icon" viewBox="0 0 24 24" aria-hidden="true"><circle cx="9" cy="8" r="3.5"/><path d="M2.5 20a6.5 6.5 0 0 1 13 0"/><path d="M16 4.5a3.5 3.5 0 0 1 0 7M21.5 20a6.5 6.5 0 0 0-4-6"/></svg>Comunidad</a>
+      <a href="#acerca" data-nav="acerca"><svg class="icon" viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="9"/><path d="M12 11v6M12 7.5v.5"/></svg>Acerca de</a>
+      <div class="nav-label">Administración</div>
+      <a href="#revision" data-nav="revision"><svg class="icon" viewBox="0 0 24 24" aria-hidden="true"><path d="M12 3 4 6v6c0 4.5 3.4 8 8 9 4.6-1 8-4.5 8-9V6Z"/><path d="m9 12 2 2 4-4"/></svg>Revisión<span class="count">261</span></a>
+    </nav>
+    <div class="sidebar-foot">Creado por<br>Dr. Juan Pablo Aravena S.</div>
+  </aside>
+
+  <div>
+    <header class="topbar">
+      <button class="btn btn-quiet btn-icon menu-button" type="button" data-menu-toggle aria-expanded="false" aria-label="Abrir menú">
+        <svg class="icon" viewBox="0 0 24 24" aria-hidden="true"><path d="M4 7h16M4 12h16M4 17h16"/></svg>
+      </button>
+      <label class="search" role="search">
+        <svg class="icon icon-sm" viewBox="0 0 24 24" aria-hidden="true"><circle cx="11" cy="11" r="6.5"/><path d="m20 20-4.2-4.2"/></svg>
+        <span class="sr-only">Buscar</span>
+        <input type="search" placeholder="Buscar temas, artículos, autores…">
+        <span class="kbd">⌘K</span>
+      </label>
+      <span class="spacer"></span>
+      <div class="theme-controls">
+        <div class="segmented" role="group" aria-label="Tema">
+          <button type="button" data-theme-option="system" aria-pressed="true" title="Seguir al sistema">
+            <svg class="icon" viewBox="0 0 24 24" aria-hidden="true"><rect x="3" y="4" width="18" height="12" rx="1.5"/><path d="M8 20h8M12 16v4"/></svg><span class="hide-sm">Sistema</span></button>
+          <button type="button" data-theme-option="light" aria-pressed="false" title="Modo claro">
+            <svg class="icon" viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M4.9 4.9l1.4 1.4M17.7 17.7l1.4 1.4M2 12h2M20 12h2M4.9 19.1l1.4-1.4M17.7 6.3l1.4-1.4"/></svg><span class="hide-sm">Claro</span></button>
+          <button type="button" data-theme-option="dark" aria-pressed="false" title="Modo oscuro">
+            <svg class="icon" viewBox="0 0 24 24" aria-hidden="true"><path d="M20 14.5A8 8 0 0 1 9.5 4 8 8 0 1 0 20 14.5Z"/></svg><span class="hide-sm">Oscuro</span></button>
+        </div>
+      </div>
+    </header>
+
+    <main class="content">
+      <div class="container">
+
+        <!-- =========================== INICIO =========================== -->
+        <section data-screen="inicio" aria-labelledby="t-inicio">
+          <div class="hero">
+            <p class="eyebrow">Biblioteca científica de Cirugía Oral y Maxilofacial</p>
+            <h1 id="t-inicio">Conocimiento revisado, citado y conectado</h1>
+            <p class="lede">Cada tema reúne una síntesis académica revisada, la literatura de PubMed, documentos y un asistente que solo afirma lo que puede citar.</p>
+            <label class="search" role="search">
+              <svg class="icon" viewBox="0 0 24 24" aria-hidden="true"><circle cx="11" cy="11" r="6.5"/><path d="m20 20-4.2-4.2"/></svg>
+              <span class="sr-only">Buscar en la biblioteca</span>
+              <input type="search" placeholder="Por ejemplo: osteotomía sagital, cirugía primero, Le Fort I">
+            </label>
+          </div>
+
+          <p class="sample-note"><svg class="icon icon-sm" viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="9"/><path d="M12 11v6M12 7.5v.5"/></svg>Prototipo de diseño: las cifras provienen del inventario de Drive y de la taxonomía inicial; todavía no hay datos cargados en la plataforma.</p>
+
+          <div class="grid grid-4" style="margin: var(--space-6) 0 var(--space-10);">
+            <div class="panel panel-body stat"><span class="value">51</span><span class="label">Temas en la taxonomía inicial</span></div>
+            <div class="panel panel-body stat"><span class="value">1.777</span><span class="label">Documentos aptos para importar</span></div>
+            <div class="panel panel-body stat"><span class="value">48</span><span class="label">Documentos de Ortognática revisados</span></div>
+            <div class="panel panel-body stat"><span class="value">261</span><span class="label">Archivos en cuarentena</span></div>
+          </div>
+
+          <div class="split">
+            <div class="stack">
+              <h2>Áreas</h2>
+              <ul class="area-list">
+                <li><div><a href="#tema">Cirugía ortognática</a><div class="sub">Diagnóstico y planificación · Cirugía maxilar · Cirugía mandibular · Complicaciones</div></div><span class="badge">18 temas</span></li>
+                <li><div><a href="#biblioteca">Articulación temporomandibular</a><div class="sub">Patología articular · Tratamiento mínimamente invasivo · Reconstrucción articular</div></div><span class="badge">19 temas</span></li>
+                <li><div><a href="#biblioteca">Anatomía quirúrgica</a><div class="sub">Mandibular · Maxilar · ATM · Vascular · Nerviosa · Espacios faciales</div></div><span class="badge">8 temas</span></li>
+                <li><div><a href="#biblioteca">Crecimiento y desarrollo craneofacial</a><div class="sub">Sin subtemas todavía</div></div><span class="badge">1 tema</span></li>
+                <li><div><a href="#biblioteca">Traumatología maxilofacial</a><div class="sub">Sin subtemas todavía</div></div><span class="badge">1 tema</span></li>
+              </ul>
+            </div>
+            <aside class="panel">
+              <div class="panel-head"><h3>Pendiente de revisión</h3><a class="small" href="#revision">Ver todo</a></div>
+              <div class="panel-body">
+                <ul class="queue">
+                  <li><span>Posibles fotografías clínicas</span><span class="badge warn">135</span></li>
+                  <li><span>Carpetas de ProPlan CMF</span><span class="badge warn">103</span></li>
+                  <li><span>Formatos no reconocidos</span><span class="badge warn">22</span></li>
+                  <li><span>Comprimidos</span><span class="badge warn">1</span></li>
+                </ul>
+              </div>
+              <div class="panel-foot">Nada en cuarentena se copia, se procesa con IA ni se publica.</div>
+            </aside>
+          </div>
+        </section>
+
+        <!-- ========================== BIBLIOTECA ========================== -->
+        <section data-screen="biblioteca" aria-labelledby="t-biblioteca">
+          <div class="page-head">
+            <nav class="crumbs" aria-label="Ruta"><a href="#inicio">Inicio</a><span>/</span><span>Biblioteca</span></nav>
+            <h1 id="t-biblioteca">Biblioteca</h1>
+            <p class="lede">Un árbol de profundidad libre: cada tema puede tener subtemas, y cada nivel reúne su propia literatura.</p>
+          </div>
+          <div class="split" style="grid-template-columns: 320px minmax(0,1fr);">
+            <nav class="panel panel-body" aria-label="Árbol de temas">
+              <ul class="tree">
+                <li><a href="#biblioteca"><svg class="chev" viewBox="0 0 24 24" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="1.5"><path d="m6 9 6 6 6-6"/></svg>Cirugía Oral y Maxilofacial<span class="n">51</span></a>
+                  <ul>
+                    <li><a href="#biblioteca"><svg class="chev" viewBox="0 0 24 24" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="1.5"><path d="m9 6 6 6-6 6"/></svg>Anatomía quirúrgica<span class="n">8</span></a></li>
+                    <li><a href="#biblioteca"><svg class="chev" viewBox="0 0 24 24" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="1.5"><path d="m6 9 6 6 6-6"/></svg>Cirugía ortognática<span class="n">18</span></a>
+                      <ul>
+                        <li><a href="#biblioteca">Diagnóstico y planificación</a></li>
+                        <li><a href="#biblioteca">Análisis cefalométrico</a></li>
+                        <li><a href="#biblioteca">Planificación virtual</a></li>
+                        <li><a href="#biblioteca">Cirugía maxilar<span class="n">4</span></a></li>
+                        <li><a href="#biblioteca">Cirugía mandibular<span class="n">3</span></a></li>
+                        <li><a href="#tema" aria-current="page">Cirugía bimaxilar</a></li>
+                        <li><a href="#biblioteca">Complicaciones</a></li>
+                        <li><a href="#biblioteca">Recidiva y estabilidad</a></li>
+                      </ul>
+                    </li>
+                    <li><a href="#biblioteca"><svg class="chev" viewBox="0 0 24 24" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="1.5"><path d="m9 6 6 6-6 6"/></svg>Articulación temporomandibular<span class="n">19</span></a></li>
+                    <li><a href="#biblioteca">Crecimiento y desarrollo craneofacial</a></li>
+                    <li><a href="#biblioteca">Traumatología maxilofacial</a></li>
+                  </ul>
+                </li>
+              </ul>
+            </nav>
+            <div class="stack">
+              <div class="row between"><h2 style="margin:0">Cirugía ortognática</h2><span class="badge">18 temas</span></div>
+              <div class="table-wrap">
+                <table class="table">
+                  <thead><tr><th scope="col">Tema</th><th scope="col">Subtemas</th><th scope="col">Estado</th></tr></thead>
+                  <tbody>
+                    <tr><td><a href="#biblioteca">Diagnóstico y planificación</a></td><td class="num">—</td><td><span class="badge dot">Borrador</span></td></tr>
+                    <tr><td><a href="#biblioteca">Planificación virtual</a></td><td class="num">—</td><td><span class="badge dot">Borrador</span></td></tr>
+                    <tr><td><a href="#biblioteca">Cirugía maxilar</a></td><td class="num">4</td><td><span class="badge dot">Borrador</span></td></tr>
+                    <tr><td><a href="#biblioteca">Cirugía mandibular</a></td><td class="num">3</td><td><span class="badge dot">Borrador</span></td></tr>
+                    <tr><td><a href="#tema">Cirugía bimaxilar</a></td><td class="num">—</td><td><span class="badge dot accent">En revisión</span></td></tr>
+                    <tr><td><a href="#biblioteca">Complicaciones</a></td><td class="num">—</td><td><span class="badge dot">Borrador</span></td></tr>
+                  </tbody>
+                </table>
+              </div>
+              <p class="small muted">Los estados son de ejemplo: ningún tema está publicado todavía.</p>
+            </div>
+          </div>
+        </section>
+
+        <!-- ============================= TEMA ============================= -->
+        <section data-screen="tema" aria-labelledby="t-tema">
+          <div class="topic-layout">
+            <nav class="toc" aria-label="En este tema">
+              <p class="toc-title">En este tema</p>
+              <ol>
+                <li><a href="#tema" aria-current="true">A. Introducción</a></li>
+                <li><a href="#tema">B. Contenido</a></li>
+                <li><a href="#tema">C. Fundamentos</a></li>
+                <li><a href="#tema">D. Literatura</a></li>
+                <li><a href="#tema">E. Documentos</a></li>
+                <li><a href="#tema">F. Multimedia</a></li>
+                <li><a href="#tema">G. Bibliografía</a></li>
+                <li><a href="#tema">H. Asistente</a></li>
+              </ol>
+            </nav>
+            <article>
+              <nav class="crumbs" aria-label="Ruta"><a href="#biblioteca">Cirugía Oral y Maxilofacial</a><span>/</span><a href="#biblioteca">Cirugía ortognática</a><span>/</span><span>Cirugía bimaxilar</span></nav>
+              <h1 id="t-tema">Cirugía bimaxilar</h1>
+              <p class="lede">Texto de muestra. La descripción académica de cada tema se redacta, se cita y la revisa un editor antes de publicarse.</p>
+              <div class="meta"><span><strong>Última actualización</strong> · prototipo, sin datos</span><span><strong>Documentos</strong> · 3 de ejemplo</span><span><strong>Revisado por</strong> · pendiente</span></div>
+
+              <section style="margin-top: var(--space-10);">
+                <p class="eyebrow">A · Introducción y resumen general</p>
+                <h2>Secuencia de la cirugía bimaxilar</h2>
+                <div class="row" style="margin-bottom: var(--space-5);">
+                  <span class="badge dot warn">Borrador · generado por IA · pendiente de revisión</span>
+                  <span class="badge dot accent">Revisado por un editor</span>
+                </div>
+                <div class="prose">
+                  <p>Este párrafo muestra el cuerpo de lectura en Newsreader a 18 píxeles, con una medida máxima de 68 caracteres. En la plataforma, cada afirmación de una síntesis lleva una cita numerada que abre la fuente.<a class="cite" href="#tema">1</a></p>
+                  <p>Los identificadores se muestran en fuente monoespaciada y sin cortarse: <span class="doi">doi:10.1016/j.joms.2010.10.053</span>.</p>
+                </div>
+              </section>
+
+              <section style="margin-top: var(--space-10);">
+                <p class="eyebrow">D · Literatura científica</p>
+                <h2>Literatura del tema</h2>
+                <div class="table-wrap">
+                  <table class="table">
+                    <caption>Artículos reales de la carpeta Ortognática, verificados en PubMed.</caption>
+                    <thead><tr><th scope="col"><button type="button">Año <svg class="icon icon-sm" viewBox="0 0 24 24" aria-hidden="true"><path d="m7 10 5-5 5 5M7 14l5 5 5-5"/></svg></button></th><th scope="col">Obra</th><th scope="col">Evidencia</th><th scope="col">DOI</th></tr></thead>
+                    <tbody>
+                      <tr><td class="nowrap tnum">2016</td><td class="work">Mandible-first sequence in bimaxillary orthognathic surgery: a systematic review<small>Borba AM et al. · Int J Oral Maxillofac Surg 45(4):472–5</small></td><td><span class="evidence"><b>1</b>Revisión sistemática</span></td><td><a class="doi" href="https://doi.org/10.1016/j.ijom.2015.10.008">10.1016/j.ijom.2015.10.008</a></td></tr>
+                      <tr><td class="nowrap tnum">2011</td><td class="work">Sequencing bimaxillary surgery: mandible first<small>Perez D, Ellis E · J Oral Maxillofac Surg 69(8):2217–24</small></td><td><span class="small muted">Sin asignar</span></td><td><a class="doi" href="https://doi.org/10.1016/j.joms.2010.10.053">10.1016/j.joms.2010.10.053</a></td></tr>
+                      <tr><td class="nowrap tnum">2006</td><td class="work">A modified approach to “model planning” in orthognathic surgery for patients without a reliable centric relation<small>Posnick JC et al. · J Oral Maxillofac Surg 64(2):347–56</small></td><td><span class="evidence"><b>4</b>Reporte de casos</span></td><td><a class="doi" href="https://doi.org/10.1016/j.joms.2005.10.022">10.1016/j.joms.2005.10.022</a></td></tr>
+                    </tbody>
+                  </table>
+                </div>
+                <p class="small muted">Nivel de evidencia según el tipo de publicación registrado en PubMed; en la plataforma lo confirma un editor.</p>
+              </section>
+
+              <section style="margin-top: var(--space-10);">
+                <p class="eyebrow">Estados y avisos</p>
+                <div class="grid grid-2">
+                  <div class="stack">
+                    <div class="row"><span class="badge dot ok">Público</span><span class="badge dot warn">Restringido</span><span class="badge dot">Solo metadatos</span><span class="badge dot accent">Acceso abierto · CC BY</span></div>
+                    <div class="alert info"><svg class="icon" viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="9"/><path d="M12 11v6M12 7.5v.5"/></svg><div><strong>Texto completo restringido</strong>Este documento está protegido por derechos de autor; se muestran la ficha y el enlace a la fuente.</div></div>
+                  </div>
+                  <div class="stack">
+                    <div class="alert warn"><svg class="icon" viewBox="0 0 24 24" aria-hidden="true"><path d="M12 3 2 20h20Z"/><path d="M12 10v4M12 17v.5"/></svg><div><strong>Pendiente de revisión editorial</strong>Generado por IA; no es visible para el público hasta que un editor lo apruebe.</div></div>
+                    <div class="row"><button class="btn btn-primary" type="button">Preguntar al asistente</button><button class="btn btn-secondary" type="button">Ver en PubMed</button></div>
+                  </div>
+                </div>
+              </section>
+            </article>
+          </div>
+        </section>
+
+        <!-- =========================== ASISTENTE =========================== -->
+        <section data-screen="asistente" aria-labelledby="t-asistente">
+          <div class="page-head">
+            <nav class="crumbs" aria-label="Ruta"><a href="#inicio">Inicio</a><span>/</span><span>Asistente IA</span></nav>
+            <h1 id="t-asistente">Asistente</h1>
+            <p class="lede">Responde solo con lo que puede citar de la biblioteca y de PubMed, y separa lo que dice la fuente de su propia interpretación.</p>
+          </div>
+          <div class="split">
+            <div class="panel">
+              <div class="panel-head"><h3>Modo Tutor · Cirugía ortognática</h3><span class="badge">3 de 10 consultas hoy</span></div>
+              <div class="panel-body chat">
+                <div class="msg"><div class="avatar" aria-hidden="true">Tú</div><div><div class="who">Pregunta</div><div class="body"><p>¿Qué se ha publicado sobre el enfoque de cirugía primero?</p></div></div></div>
+                <div class="msg ai"><div class="avatar" aria-hidden="true">IA</div><div><div class="who">Asistente · ejemplo de formato, no es una respuesta generada</div>
+                  <div class="body">
+                    <p class="part-label">Lo que dicen las fuentes</p>
+                    <p>Aquí el asistente resume cada fuente con su número de cita y la página exacta del fragmento usado.<a class="cite" href="#asistente">1</a><a class="cite" href="#asistente">2</a></p>
+                    <p class="part-label">Interpretación del asistente</p>
+                    <p>Separada y marcada. Si la biblioteca no tiene respaldo suficiente, lo dice en vez de responder.</p>
+                    <div class="sources">
+                      <div class="source"><span class="source-n">1</span><div><div class="t">Orthodontic principles and guidelines for the surgery-first approach to orthognathic surgery</div><div class="s">Huang CS, Chen YR · Int J Oral Maxillofac Surg 2015 · <span class="doi">10.1016/j.ijom.2015.05.023</span></div></div><span class="badge">Abstract</span></div>
+                      <div class="source"><span class="source-n">2</span><div><div class="t">Surgery-first accelerated orthognathic surgery: orthodontic guidelines and setup for model surgery</div><div class="s">Liou EJ et al. · J Oral Maxillofac Surg 2011 · <span class="doi">10.1016/j.joms.2010.11.011</span></div></div><span class="badge accent">Texto completo, p. 4</span></div>
+                    </div>
+                  </div>
+                </div></div>
+                <div class="composer"><textarea rows="2" aria-label="Escribe tu pregunta" placeholder="Escribe tu pregunta…"></textarea><button class="btn btn-primary" type="button">Enviar</button></div>
+                <p class="small muted" style="margin:0">Herramienta educativa: no reemplaza el juicio clínico. No ingreses datos de pacientes.</p>
+              </div>
+            </div>
+            <aside class="stack">
+              <div class="panel panel-body stack">
+                <h3 style="margin:0">Alcance</h3>
+                <label class="check"><input type="checkbox" checked> Biblioteca del tema</label>
+                <label class="check"><input type="checkbox" checked> PubMed</label>
+                <label class="check"><input type="checkbox"> Toda la biblioteca</label>
+              </div>
+              <div class="panel panel-body stack">
+                <h3 style="margin:0">Modo</h3>
+                <div class="segmented" role="group" aria-label="Modo del asistente" style="flex-wrap: wrap;">
+                  <button type="button" aria-pressed="true">Tutor</button><button type="button" aria-pressed="false">Investigador</button><button type="button" aria-pressed="false">Crítico</button>
+                </div>
+              </div>
+            </aside>
+          </div>
+        </section>
+
+        <!-- ============================ REVISIÓN ============================ -->
+        <section data-screen="revision" aria-labelledby="t-revision">
+          <div class="page-head">
+            <nav class="crumbs" aria-label="Ruta"><a href="#inicio">Inicio</a><span>/</span><span>Administración</span><span>/</span><span>Revisión</span></nav>
+            <h1 id="t-revision">Revisión de importación</h1>
+            <p class="lede">Lo que la política de exclusión no pudo decidir sola. Nada de esto se copia ni se procesa hasta que un administrador lo libere.</p>
+          </div>
+          <div class="tabs" role="tablist" aria-label="Cola de revisión">
+            <button role="tab" aria-selected="true" type="button">Cuarentena · 261</button>
+            <button role="tab" aria-selected="false" type="button">Excluidos · 528</button>
+            <button role="tab" aria-selected="false" type="button">Liberados · 0</button>
+          </div>
+          <div class="alert critical" style="margin-bottom: var(--space-6);"><svg class="icon" viewBox="0 0 24 24" aria-hidden="true"><path d="M12 3 4 6v6c0 4.5 3.4 8 8 9 4.6-1 8-4.5 8-9V6Z"/><path d="M12 9v4M12 16v.5"/></svg><div><strong>Exclusiones permanentes</strong>DICOM, proyectos de planificación y datos de pacientes no pueden liberarse; aquí solo se listan.</div></div>
+          <div class="row" style="margin-bottom: var(--space-4);">
+            <div class="field" style="flex: 1; min-width: 220px;"><label for="f-regla">Regla</label><select id="f-regla" class="select"><option>Todas las reglas</option><option>Posible fotografía clínica</option><option>Carpeta de ProPlan CMF</option><option>Formato no reconocido</option></select></div>
+            <div class="field" style="flex: 2; min-width: 240px;"><label for="f-buscar">Buscar</label><input id="f-buscar" class="input" placeholder="Nombre o carpeta"></div>
+          </div>
+          <div class="table-wrap">
+            <table class="table">
+              <thead><tr><th scope="col"><label class="check"><input type="checkbox" aria-label="Seleccionar todo"></label></th><th scope="col">Archivo</th><th scope="col">Regla</th><th scope="col">Motivo</th><th scope="col"><span class="sr-only">Acciones</span></th></tr></thead>
+              <tbody>
+                <tr><td><input type="checkbox" aria-label="Seleccionar"></td><td class="nowrap">IMG_0001.JPG<div class="small muted">CMF UCH / II / … / simposio</div></td><td><span class="badge warn">CUA-IMAGEN-CLINICA-POSIBLE</span></td><td class="small">Nombre de cámara o teléfono</td><td><div class="row" style="flex-wrap:nowrap"><button class="btn btn-secondary btn-sm" type="button">Liberar…</button><button class="btn btn-danger btn-sm" type="button">Excluir</button></div></td></tr>
+                <tr><td><input type="checkbox" aria-label="Seleccionar"></td><td class="nowrap">Clase oclusión.mp4<div class="small muted">CMF UCH / Proplan CMF / Clases</div></td><td><span class="badge warn">CUA-CARPETA-SOFTWARE</span></td><td class="small">Material en carpeta de ProPlan CMF sin caso identificado</td><td><div class="row" style="flex-wrap:nowrap"><button class="btn btn-secondary btn-sm" type="button">Liberar…</button><button class="btn btn-danger btn-sm" type="button">Excluir</button></div></td></tr>
+                <tr><td><input type="checkbox" aria-label="Seleccionar"></td><td class="nowrap">datos.bin<div class="small muted">CMF Academy / Varios</div></td><td><span class="badge warn">CUA-FORMATO-DESCONOCIDO</span></td><td class="small">Formato no reconocido</td><td><div class="row" style="flex-wrap:nowrap"><button class="btn btn-secondary btn-sm" type="button">Liberar…</button><button class="btn btn-danger btn-sm" type="button">Excluir</button></div></td></tr>
+              </tbody>
+            </table>
+          </div>
+          <p class="small muted">Filas de ejemplo con nombres genéricos; la cola real se alimenta del inventario de exclusión.</p>
+        </section>
+
+        <!-- ========================= OTRAS SECCIONES ========================= -->
+        <section data-screen="otras" aria-labelledby="t-otras">
+          <h1 id="t-otras">En construcción</h1>
+          <p class="lede">Esta sección se diseña en una fase posterior. El prototipo incluye Inicio, Biblioteca, un tema, el Asistente y la Revisión de importación.</p>
+          <a class="btn btn-secondary" href="#inicio">Volver al inicio</a>
+        </section>
+
+      </div>
+    </main>
+    <footer class="footer"><span>CMF Academy · The Oral &amp; Maxillofacial Knowledge Platform</span><span>Creado por Dr. Juan Pablo Aravena S. · Prototipo de diseño, sin datos reales cargados</span></footer>
+  </div>
+</div>
+
+<script src="tema.js"></script>
+<script>
+  (function () {
+    var screens = ["inicio", "biblioteca", "tema", "asistente", "revision"];
+    function show() {
+      var id = (location.hash || "#inicio").slice(1);
+      var target = screens.indexOf(id) >= 0 ? id : (id ? "otras" : "inicio");
+      document.querySelectorAll("[data-screen]").forEach(function (s) {
+        s.classList.toggle("is-active", s.getAttribute("data-screen") === target);
+      });
+      var navId = target === "tema" ? "biblioteca" : target;
+      document.querySelectorAll("[data-nav]").forEach(function (a) {
+        if (a.getAttribute("data-nav") === (screens.indexOf(id) >= 0 ? navId : id)) a.setAttribute("aria-current", "page");
+        else a.removeAttribute("aria-current");
+      });
+      var app = document.querySelector(".app");
+      app.setAttribute("data-menu", "closed");
+      window.scrollTo(0, 0);
+    }
+    window.addEventListener("hashchange", show);
+    show();
+  })();
+</script>
+</body>
+</html>
