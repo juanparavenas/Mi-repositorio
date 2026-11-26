@@ -1,5 +1,6 @@
 """Pruebas de contraste de los tokens de diseño (modo claro y oscuro, acento petróleo)."""
 
+import re
 import sys
 import tempfile
 import unittest
@@ -28,7 +29,8 @@ class ContrasteTest(unittest.TestCase):
         self.assertNotEqual(t["oscuro"]["on-accent"].upper(), "#FFFFFF")
 
     def test_detecta_un_color_insuficiente(self):
-        css = TOKENS.read_text(encoding="utf-8").replace("--color-ink-3: #686B72;", "--color-ink-3: #B0B0B0;", 1)
+        css, n = re.subn(r"--color-ink-3: #686b72;", "--color-ink-3: #b0b0b0;", TOKENS.read_text(encoding="utf-8"), 1, re.I)
+        self.assertEqual(n, 1)
         with tempfile.NamedTemporaryFile("w", suffix=".css", delete=False, encoding="utf-8") as fh:
             fh.write(css)
         try:
@@ -39,7 +41,9 @@ class ContrasteTest(unittest.TestCase):
     def test_detecta_modo_oscuro_desincronizado(self):
         css = TOKENS.read_text(encoding="utf-8")
         i = css.index(':root[data-theme="dark"] {')
-        css = css[:i] + css[i:].replace("--color-ink: #ECEAE4;", "--color-ink: #FFFFFF;", 1)
+        tail, n = re.subn(r"--color-ink: #eceae4;", "--color-ink: #ffffff;", css[i:], 1, re.I)
+        self.assertEqual(n, 1)
+        css = css[:i] + tail
         with tempfile.NamedTemporaryFile("w", suffix=".css", delete=False, encoding="utf-8") as fh:
             fh.write(css)
         try:

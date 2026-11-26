@@ -10,13 +10,15 @@
 
 | Archivo | Contenido |
 | --- | --- |
-| [`diseno/tokens.css`](diseno/tokens.css) | Tokens: tipografía, escala, espaciado, forma, movimiento y colores de los cuatro temas |
-| [`diseno/estilos.css`](diseno/estilos.css) | Estilos base y componentes; usan solo tokens, sin colores fijos |
-| [`diseno/tema.js`](diseno/tema.js) | Selector de tema (Sistema, Claro, Oscuro), con memoria en el navegador |
+| [`apps/web/src/styles/tokens.css`](../apps/web/src/styles/tokens.css) | Tokens: tipografía, escala, espaciado, forma, movimiento y colores de modo claro y oscuro. Fuente única: la usan la aplicación y el prototipo |
+| [`apps/web/src/styles/estilos.css`](../apps/web/src/styles/estilos.css) | Estilos base y componentes; usan solo tokens, sin colores fijos |
+| [`apps/web/src/components/ThemeToggle.tsx`](../apps/web/src/components/ThemeToggle.tsx) | Selector de tema (Sistema, Claro, Oscuro) de la aplicación, con memoria en el navegador y sin destello al cargar |
+| Ruta `/componentes` de la aplicación | Galería viva de tokens y componentes, para revisarlos en ambos modos |
+| [`diseno/tema.js`](diseno/tema.js) | Selector de tema del prototipo estático |
 | [`diseno/prototipo.html`](diseno/prototipo.html) | Prototipo navegable: Inicio, Biblioteca, página de tema, Asistente y Revisión de importación |
 | [`diseno/especimen.html`](diseno/especimen.html) | Espécimen tipográfico original de la fase 0 |
 
-Para verlo, abre `docs/diseno/prototipo.html` en un navegador desde una copia local del repositorio. GitHub muestra los HTML como código, no como página.
+Para ver el prototipo, abre `docs/diseno/prototipo.html` en un navegador desde una copia local del repositorio. GitHub muestra los HTML como código, no como página. La aplicación real se levanta con `pnpm dev` (ver el README).
 
 ## Dirección
 
@@ -37,7 +39,7 @@ Una publicación científica antes que una aplicación: el contenido manda y la 
 | Interfaz, tablas, controles | **Inter** | Muy legible en tamaños pequeños; cifras tabulares |
 | DOI, PMID, valores técnicos | **IBM Plex Mono** | Distingue los identificadores que se copian y verifican; no se cortan entre líneas |
 
-Las tres tienen licencia SIL Open Font License; la fase 1 las servirá desde el propio sitio con `next/font`.
+Las tres tienen licencia SIL Open Font License y la aplicación las sirve desde el propio sitio con los paquetes de Fontsource, sin llamar a Google Fonts (sin rastreo de terceros y sin depender de su disponibilidad).
 
 **Escala (base 16 px):** 42 título de tema · 30 sección · 22 subtítulo · 18 lectura (serif, interlineado 1,65, máximo 68 caracteres por línea) · 14–16 interfaz · 13 metadatos · 12 etiquetas en versalitas.
 

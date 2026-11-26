@@ -1,0 +1,23 @@
+{
+  "name": "cmf-academy",
+  "private": true,
+  "description": "CMF Academy · The Oral & Maxillofacial Knowledge Platform",
+  "packageManager": "pnpm@10.28.0",
+  "engines": {
+    "node": ">=22"
+  },
+  "scripts": {
+    "dev": "pnpm --filter @cmf/web dev",
+    "build": "pnpm --filter @cmf/web build",
+    "start": "pnpm --filter @cmf/web start",
+    "lint": "pnpm --filter @cmf/web lint",
+    "typecheck": "pnpm --filter @cmf/web typecheck",
+    "test": "pnpm --filter @cmf/web test",
+    "e2e": "pnpm --filter @cmf/web e2e",
+    "format": "prettier --write .",
+    "format:check": "prettier --check ."
+  },
+  "devDependencies": {
+    "prettier": "3.10.0"
+  }
+}

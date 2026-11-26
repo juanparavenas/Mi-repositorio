@@ -1,0 +1,9 @@
+# Solo se formatea el código de la aplicación; la documentación y el SQL tienen su propio estilo.
+*
+!apps/
+!apps/**
+apps/web/.next/
+apps/web/next-env.d.ts
+apps/web/playwright-report/
+apps/web/test-results/
+pnpm-lock.yaml

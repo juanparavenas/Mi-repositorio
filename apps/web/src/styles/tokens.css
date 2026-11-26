@@ -1,8 +1,8 @@
 /* =============================================================================
    CMF Academy · Tokens de diseño · v2 (sistema de diseño, modo claro y oscuro)
 
-   Fuente única de colores, tipografía, espaciado y movimiento. La aplicación
-   (fase 1) los importará tal cual.
+   Fuente única de colores, tipografía, espaciado y movimiento. La usan la
+   aplicación (apps/web) y el prototipo (docs/diseno/prototipo.html).
 
    Temas
      · Por defecto sigue al sistema operativo (prefers-color-scheme).
@@ -17,18 +17,18 @@
   color-scheme: light dark;
 
   /* --- Tipografía ---------------------------------------------------------- */
-  --font-serif: "Newsreader", "Iowan Old Style", "Georgia", serif;
-  --font-sans: "Inter", ui-sans-serif, system-ui, -apple-system, "Segoe UI", sans-serif;
+  --font-serif: "Newsreader Variable", "Newsreader", "Iowan Old Style", "Georgia", serif;
+  --font-sans: "Inter Variable", "Inter", ui-sans-serif, system-ui, -apple-system, "Segoe UI", sans-serif;
   --font-mono: "IBM Plex Mono", ui-monospace, "SFMono-Regular", Menlo, monospace;
 
-  --text-2xs: 0.75rem;    /* 12 px · solo etiquetas en versalitas */
-  --text-xs: 0.8125rem;   /* 13 px · metadatos */
-  --text-sm: 0.875rem;    /* 14 px · interfaz densa, tablas */
-  --text-base: 1rem;      /* 16 px · interfaz */
-  --text-read: 1.125rem;  /* 18 px · lectura larga (serif) */
-  --text-lg: 1.375rem;    /* 22 px · subtítulos */
-  --text-xl: 1.875rem;    /* 30 px · título de sección */
-  --text-2xl: 2.625rem;   /* 42 px · título de tema */
+  --text-2xs: 0.75rem; /* 12 px · solo etiquetas en versalitas */
+  --text-xs: 0.8125rem; /* 13 px · metadatos */
+  --text-sm: 0.875rem; /* 14 px · interfaz densa, tablas */
+  --text-base: 1rem; /* 16 px · interfaz */
+  --text-read: 1.125rem; /* 18 px · lectura larga (serif) */
+  --text-lg: 1.375rem; /* 22 px · subtítulos */
+  --text-xl: 1.875rem; /* 30 px · título de sección */
+  --text-2xl: 2.625rem; /* 42 px · título de tema */
 
   --leading-tight: 1.2;
   --leading-ui: 1.45;
@@ -62,36 +62,35 @@
   --ease: cubic-bezier(0.2, 0, 0, 1);
 
   /* --- Color: modo claro ------------------------------------------------------ */
-  --color-paper: #FBFAF7;          /* fondo de página, blanco cálido */
-  --color-surface: #F3F1EC;        /* barra lateral, paneles secundarios */
-  --color-raised: #FFFFFF;         /* tarjetas, menús, campos */
-  --color-sunken: #EEEBE5;         /* fondos de código, filas seleccionadas */
-  --color-ink: #1F2124;            /* texto principal */
-  --color-ink-2: #4A4D53;          /* texto secundario */
-  --color-ink-3: #686B72;          /* metadatos; borde de campos */
-  --color-border: #E3E0D8;         /* separadores decorativos */
-  --color-border-strong: #C9C5BB;  /* bordes de tablas y controles */
+  --color-paper: #fbfaf7; /* fondo de página, blanco cálido */
+  --color-surface: #f3f1ec; /* barra lateral, paneles secundarios */
+  --color-raised: #ffffff; /* tarjetas, menús, campos */
+  --color-sunken: #eeebe5; /* fondos de código, filas seleccionadas */
+  --color-ink: #1f2124; /* texto principal */
+  --color-ink-2: #4a4d53; /* texto secundario */
+  --color-ink-3: #686b72; /* metadatos; borde de campos */
+  --color-border: #e3e0d8; /* separadores decorativos */
+  --color-border-strong: #c9c5bb; /* bordes de tablas y controles */
   --color-overlay: rgb(20 21 23 / 0.45);
   --shadow-pop: 0 8px 24px rgb(31 33 36 / 0.12), 0 1px 2px rgb(31 33 36 / 0.08);
 
-  --color-accent: #0F5257;         /* verde petróleo */
-  --color-accent-hover: #14666C;
-  --color-accent-tint: #E6F0EF;
-  --color-on-accent: #FFFFFF;      /* texto sobre fondo de acento */
+  --color-accent: #0f5257; /* verde petróleo */
+  --color-accent-hover: #14666c;
+  --color-accent-tint: #e6f0ef;
+  --color-on-accent: #ffffff; /* texto sobre fondo de acento */
 
-  --color-ok: #2F6B3A;
-  --color-ok-tint: #E8F1E9;
+  --color-ok: #2f6b3a;
+  --color-ok-tint: #e8f1e9;
   --color-warn: #865700;
-  --color-warn-tint: #FBF0DA;
-  --color-critical: #9B2C2C;
-  --color-critical-tint: #F9E7E5;
-  --color-info: #2B5A87;
-  --color-info-tint: #E7EEF6;
+  --color-warn-tint: #fbf0da;
+  --color-critical: #9b2c2c;
+  --color-critical-tint: #f9e7e5;
+  --color-info: #2b5a87;
+  --color-info-tint: #e7eef6;
 
   --color-focus: var(--color-accent);
   --color-selection: color-mix(in srgb, var(--color-accent) 18%, transparent);
 }
-
 
 /* --- Modo oscuro ----------------------------------------------------------------
    Grafito cálido, no negro puro. Los colores se aclaran para mantener el
@@ -101,61 +100,60 @@
 @media (prefers-color-scheme: dark) {
   :root:not([data-theme="light"]) {
     --color-paper: #151618;
-    --color-surface: #1B1C1F;
+    --color-surface: #1b1c1f;
     --color-raised: #222428;
     --color-sunken: #101113;
-    --color-ink: #ECEAE4;
-    --color-ink-2: #BDBAB3;
-    --color-ink-3: #97948D;
-    --color-border: #2C2E32;
-    --color-border-strong: #3F4146;
+    --color-ink: #eceae4;
+    --color-ink-2: #bdbab3;
+    --color-ink-3: #97948d;
+    --color-border: #2c2e32;
+    --color-border-strong: #3f4146;
     --color-overlay: rgb(0 0 0 / 0.6);
     --shadow-pop: 0 8px 24px rgb(0 0 0 / 0.45), 0 0 0 1px rgb(255 255 255 / 0.04);
 
-    --color-accent: #6CC3C0;
-    --color-accent-hover: #8AD3D0;
-    --color-accent-tint: #172A2B;
-    --color-on-accent: #0B1C1D;
+    --color-accent: #6cc3c0;
+    --color-accent-hover: #8ad3d0;
+    --color-accent-tint: #172a2b;
+    --color-on-accent: #0b1c1d;
 
-    --color-ok: #7CC48A;
-    --color-ok-tint: #17261A;
-    --color-warn: #E2B65C;
-    --color-warn-tint: #2A2214;
-    --color-critical: #F0958D;
-    --color-critical-tint: #2E1A19;
-    --color-info: #8FB6E0;
+    --color-ok: #7cc48a;
+    --color-ok-tint: #17261a;
+    --color-warn: #e2b65c;
+    --color-warn-tint: #2a2214;
+    --color-critical: #f0958d;
+    --color-critical-tint: #2e1a19;
+    --color-info: #8fb6e0;
     --color-info-tint: #172231;
   }
 }
 
 :root[data-theme="dark"] {
   --color-paper: #151618;
-  --color-surface: #1B1C1F;
+  --color-surface: #1b1c1f;
   --color-raised: #222428;
   --color-sunken: #101113;
-  --color-ink: #ECEAE4;
-  --color-ink-2: #BDBAB3;
-  --color-ink-3: #97948D;
-  --color-border: #2C2E32;
-  --color-border-strong: #3F4146;
+  --color-ink: #eceae4;
+  --color-ink-2: #bdbab3;
+  --color-ink-3: #97948d;
+  --color-border: #2c2e32;
+  --color-border-strong: #3f4146;
   --color-overlay: rgb(0 0 0 / 0.6);
   --shadow-pop: 0 8px 24px rgb(0 0 0 / 0.45), 0 0 0 1px rgb(255 255 255 / 0.04);
 
-  --color-accent: #6CC3C0;
-  --color-accent-hover: #8AD3D0;
-  --color-accent-tint: #172A2B;
-  --color-on-accent: #0B1C1D;
+  --color-accent: #6cc3c0;
+  --color-accent-hover: #8ad3d0;
+  --color-accent-tint: #172a2b;
+  --color-on-accent: #0b1c1d;
 
-  --color-ok: #7CC48A;
-  --color-ok-tint: #17261A;
-  --color-warn: #E2B65C;
-  --color-warn-tint: #2A2214;
-  --color-critical: #F0958D;
-  --color-critical-tint: #2E1A19;
-  --color-info: #8FB6E0;
+  --color-ok: #7cc48a;
+  --color-ok-tint: #17261a;
+  --color-warn: #e2b65c;
+  --color-warn-tint: #2a2214;
+  --color-critical: #f0958d;
+  --color-critical-tint: #2e1a19;
+  --color-info: #8fb6e0;
   --color-info-tint: #172231;
 }
-
 
 @media (prefers-reduced-motion: reduce) {
   :root {
