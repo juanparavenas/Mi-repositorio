@@ -63,7 +63,12 @@ begin
       'public.fail_job(uuid, text, interval)',
       'public.enqueue_due_pubmed_syncs()',
       'public.user_has_role(uuid, public.app_role)',
-      'public.files_propagate_restrictions()'
+      'public.files_propagate_restrictions()',
+      'public.source_items_enforce_policy()',
+      'public.source_items_block_files()',
+      'public.source_items_audit()',
+      'public.files_enforce_exclusion_policy()',
+      'public.processing_jobs_respect_policy()'
     ]) as fn
   loop
     perform tests.assert(not has_function_privilege('anon', r.fn, 'execute'),

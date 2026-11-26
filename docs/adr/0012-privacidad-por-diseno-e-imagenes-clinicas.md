@@ -11,7 +11,7 @@ La plataforma tratará datos de usuarios y, en la fase 5, imágenes clínicas, r
 
 - **Minimización:** el perfil guarda solo lo que el usuario decide mostrar; los visitantes se identifican con un hash rotativo, nunca con su IP.
 - **Imágenes clínicas:** fotografías clínicas, radiografías y CBCT se tratan siempre como datos de paciente. Solo se publican con consentimiento obtenido y anonimización verificada por un editor (reglas en la base; prueba 08).
-- **Anonimización técnica:** eliminación de metadatos EXIF, alerta automática de rostros o texto identificable, y en la fase avanzada, limpieza de encabezados DICOM.
+- **Anonimización técnica:** eliminación de metadatos EXIF y alerta automática de rostros o texto identificable. Los estudios DICOM no se almacenan: quedan excluidos por la [ADR-0016](0016-politica-de-exclusion-documental.md), que reemplaza el plan inicial de limpiar sus encabezados.
 - **El documento de consentimiento no se almacena en la plataforma:** solo una referencia interna.
 - **Derechos de los titulares:** eliminación de cuenta y exportación de datos propios.
 - **Verificación legal antes del lanzamiento público** (ver `docs/privacidad-y-cumplimiento.md`).

@@ -19,6 +19,7 @@ Cada decisión relevante de CMF Academy se documenta aquí (ver [ADR-0001](0001-
 | [0013](0013-flujo-de-ramas-pr-y-ci.md) | Flujo de ramas, pull requests y CI | Aceptada |
 | [0014](0014-proveedor-de-embeddings.md) | Proveedor de embeddings: decisión diferida con criterios | Propuesta (se decide en la fase 4) |
 | [0015](0015-worker-en-github-actions-durante-el-piloto.md) | Worker en GitHub Actions durante el piloto | Aceptada |
+| [0016](0016-politica-de-exclusion-documental.md) | Política de exclusión documental | Aceptada (instrucciones del administrador, 25 y 26-11-2026) |
 
 ## Plantilla
 

@@ -12,12 +12,13 @@ Ocho fases (0 a 7). Cada una termina con un **pull request hacia `main`** que t�
 | --- | --- |
 | Inspección del repositorio | Hecho: solo contenía `README.md` |
 | Arquitectura y decisiones | [arquitectura.md](arquitectura.md), 15 ADR |
-| Modelo de datos | 7 migraciones SQL + semilla de 51 temas + 8 archivos de pruebas |
+| Modelo de datos | 8 migraciones SQL + semilla de 51 temas + 9 archivos de pruebas |
+| Política de exclusión documental | [politica-de-exclusion-documental.md](politica-de-exclusion-documental.md), reglas versionadas, clasificador con pruebas, migración 0800 |
 | Infraestructura, variables de entorno, costos | [infraestructura.md](infraestructura.md), [`.env.example`](../.env.example), [costos.md](costos.md) |
 | Privacidad y cumplimiento | [privacidad-y-cumplimiento.md](privacidad-y-cumplimiento.md) |
 | Dominio | [dominio.md](dominio.md) |
 | Identidad tipográfica provisional | [identidad-visual.md](identidad-visual.md), tokens y espécimen |
-| CI | GitHub Actions: pruebas de base de datos (PostgreSQL 16 y 17), enlaces de la documentación, búsqueda de secretos |
+| CI | GitHub Actions: pruebas de base de datos (PostgreSQL 16 y 17), pruebas del clasificador de exclusión, enlaces de la documentación, búsqueda de secretos |
 
 **Criterio de salida:** apruebas este PR y eliges el color de acento.
 
@@ -48,16 +49,17 @@ Ocho fases (0 a 7). Cada una termina con un **pull request hacia `main`** que t�
 
 | PR | Contenido |
 | --- | --- |
-| 2.1 Carga | Arrastrar y soltar (solo editores en esta fase), validación de tipo real, tamaño y SHA-256, detección de duplicados, Storage privado con políticas |
+| 2.0 Importador de Google Drive | Solo lectura. Recorre la carpeta completa, aplica la [política de exclusión documental](politica-de-exclusion-documental.md) antes de copiar, registra cada archivo en `source_items` con su decisión y motivo, resuelve duplicados y copia únicamente lo permitido. Nunca modifica Drive |
+| 2.1 Carga | Arrastrar y soltar (solo editores en esta fase), validación de tipo real, tamaño y SHA-256, detección de duplicados, la misma política de exclusión que el importador, Storage privado con políticas |
 | 2.2 Worker | Paquete Python, cliente de cola (`claim_jobs`, `complete_job`, `fail_job`), flujo de GitHub Actions programado, registros y reintentos |
 | 2.3 Extracción | Docling y PyMuPDF; OCR; tablas, figuras y páginas; secciones fallidas informadas |
 | 2.4 Metadatos | DOI y PMID desde el texto, Crossref y PubMed, detección de idioma, deduplicación de obras |
-| 2.5 Derechos | Flujo editorial de estado de distribución, base legal, verificación y permiso de IA |
+| 2.5 Derechos | Flujo editorial de estado de distribución, base legal, verificación y permiso de IA; panel de revisión de la cuarentena y de las liberaciones |
 | 2.6 Lector | PDF.js con apertura en página exacta, ficha de la obra, enlaces a la fuente |
 | 2.7 Imágenes | Optimización, miniaturas y eliminación de metadatos EXIF |
 | 2.8 Clasificación, resumen y traducción **[$]** | Se construyen y prueban con un pequeño presupuesto aprobado; sin aprobación quedan desactivados y la clasificación es manual |
 
-**Criterio de salida:** 50 documentos reales cargados, con metadatos verificados y estado de distribución definido por ti. Si apruebas presupuesto: 10 resúmenes y 5 traducciones validados por ti.
+**Criterio de salida:** 50 documentos reales cargados, con metadatos verificados y estado de distribución definido por ti; ningún archivo excluido o en cuarentena con copia en Storage. Si apruebas presupuesto: 10 resúmenes y 5 traducciones validados por ti.
 
 ---
 
@@ -110,7 +112,7 @@ Registro abierto, perfiles, aportes de documentos y enlaces con moderación, com
 
 ## Fase 7 · Herramientas académicas avanzadas · según uso de IA
 
-Flashcards, preguntas tipo examen, tablas comparativas, esquemas conceptuales, algoritmos diagnósticos y terapéuticos, casos clínicos para discusión, presentaciones académicas y visor DICOM. Todo material generado enlaza a sus fuentes y pasa por revisión editorial.
+Flashcards, preguntas tipo examen, tablas comparativas, esquemas conceptuales, algoritmos diagnósticos y terapéuticos, casos clínicos para discusión y presentaciones académicas generadas desde las fuentes. El visor DICOM previsto inicialmente se descarta: la [ADR-0016](adr/0016-politica-de-exclusion-documental.md) excluye los estudios DICOM. Todo material generado enlaza a sus fuentes y pasa por revisión editorial.
 
 ---
 

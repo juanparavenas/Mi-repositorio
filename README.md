@@ -18,6 +18,7 @@ Biblioteca científica pública y plataforma académica colaborativa de Cirugía
 | [Infraestructura](docs/infraestructura.md) | Servicios por fase, entornos, configuración y respaldos |
 | [Costos](docs/costos.md) | Planes gratuitos, costo por servicio, por documento y por consulta; escenarios |
 | [Privacidad y cumplimiento](docs/privacidad-y-cumplimiento.md) | Normativa, datos sensibles, imágenes clínicas, verificación previa al lanzamiento |
+| [Política de exclusión documental](docs/politica-de-exclusion-documental.md) | Qué no se importa (DICOM, proyectos clínicos, presentaciones, duplicados), cuarentena y reglas del importador de Google Drive |
 | [Identidad visual](docs/identidad-visual.md) | Tipografía, color y espécimen provisional |
 | [Dominio](docs/dominio.md) | Recomendación de dominio |
 | [Decisiones (ADR)](docs/adr/README.md) | Registro de decisiones de arquitectura |
@@ -27,11 +28,12 @@ Biblioteca científica pública y plataforma académica colaborativa de Cirugía
 ```text
 .
 ├── docs/                    # Arquitectura, decisiones (adr/) y diseño (diseno/)
+├── config/                  # Reglas versionadas (política de exclusión documental)
 ├── supabase/
 │   ├── migrations/          # Esquema de la base de datos (borrador de diseño probado)
 │   ├── tests/               # Pruebas del modelo de datos
 │   └── seed.sql             # Taxonomía inicial (5 áreas, 51 temas)
-├── scripts/                 # Utilidades de verificación
+├── scripts/                 # Utilidades de verificación y clasificador de la política de exclusión
 ├── .github/                 # CI y plantilla de pull request
 └── .env.example             # Variables de entorno necesarias (sin valores)
 ```
@@ -48,6 +50,10 @@ PGHOST=localhost PGUSER=postgres supabase/tests/run.sh
 
 ```bash
 python3 scripts/check_docs_links.py
+```
+
+```bash
+python3 -m unittest discover -s scripts/tests -v
 ```
 
 ## Flujo de trabajo

@@ -7,7 +7,7 @@
 | Estado | Fase 0 aprobada para documentación. Ninguna funcionalidad implementada todavía. |
 | Fecha | 25 de noviembre de 2026 |
 | Rama de trabajo | `claude/sweet-ride-5juqru` → PR hacia `main` |
-| Documentos relacionados | [Modelo de datos](modelo-de-datos.md) · [Infraestructura](infraestructura.md) · [Costos](costos.md) · [Privacidad y cumplimiento](privacidad-y-cumplimiento.md) · [Identidad visual](identidad-visual.md) · [Plan de implementación](plan-de-implementacion.md) · [Dominio](dominio.md) · [Decisiones (ADR)](adr/README.md) |
+| Documentos relacionados | [Política de exclusión documental](politica-de-exclusion-documental.md) · [Modelo de datos](modelo-de-datos.md) · [Infraestructura](infraestructura.md) · [Costos](costos.md) · [Privacidad y cumplimiento](privacidad-y-cumplimiento.md) · [Identidad visual](identidad-visual.md) · [Plan de implementación](plan-de-implementacion.md) · [Dominio](dominio.md) · [Decisiones (ADR)](adr/README.md) |
 
 CMF Academy se construye como un **monolito modular** en Next.js sobre **Supabase (PostgreSQL + pgvector)**, con un **worker en Python** para el procesamiento documental y **Claude** como motor de inteligencia artificial, con respuestas siempre citadas. Por decisión del administrador, la plataforma funciona con **costo cero** hasta que él apruebe explícitamente un gasto: todos los servicios parten en planes gratuitos y la IA parte apagada ([ADR-0010](adr/0010-costo-cero-y-activacion-por-fase.md)).
 
@@ -182,6 +182,7 @@ Cada tema puede tener consultas guardadas con frecuencia configurable (semanal p
 
 El original se conserva intacto; todo lo demás es un derivado ligado a él. Cada etapa es un trabajo de la cola con estado, reintentos y costo registrado:
 
+0. **Política de exclusión:** antes de copiar nada, cada archivo (de Google Drive, de una carga directa o de un aporte) se clasifica y registra en el inventario de importación. Solo lo permitido se copia; DICOM, proyectos de planificación, casos clínicos, datos de pacientes, presentaciones y duplicados quedan fuera, y lo dudoso en cuarentena ([política](politica-de-exclusion-documental.md), [ADR-0016](adr/0016-politica-de-exclusion-documental.md)).
 1. **Recepción:** tipo real del archivo (no solo la extensión), tamaño máximo, análisis antivirus, SHA-256 y detección de duplicados.
 2. **Extracción:** Docling para PDF, DOCX y PPTX; OCR para escaneados. Las secciones que no se pudieron extraer se informan.
 3. **Metadatos:** DOI y PMID desde el texto, consulta a PubMed y Crossref; lo extraído sin identificador queda como "extraído automáticamente".
@@ -221,7 +222,7 @@ Privacidad, datos sensibles e imágenes clínicas: [privacidad-y-cumplimiento.md
 | Distribuir material protegido por derechos de autor | Estados de distribución aplicados en la base; derechos verificados por un editor; formulario de retiro |
 | Respuestas de IA con referencias inventadas | Citas por clave foránea, validación contra NCBI, set de evaluación con preguntas trampa |
 | Costo de IA sin control | IA apagada por defecto, presupuesto, cuotas, corte automático y aprobación explícita de gastos |
-| Exposición de datos de pacientes | Consentimiento y anonimización obligatorios en la base; metadatos EXIF eliminados; revisión editorial |
+| Exposición de datos de pacientes | Política de exclusión aplicada antes de importar; consentimiento y anonimización obligatorios en la base; metadatos EXIF eliminados; revisión editorial |
 | Límites de planes gratuitos (500 MB de base, 1 GB de archivos, pausa por inactividad en Supabase Free) | Monitoreo de uso; respaldo propio; decisión de pago solo cuando se acerque el límite |
 | Términos de uso de Vercel Hobby (uso personal, no comercial) | El proyecto no tiene fines de lucro; si eso cambia, migrar a otro plan o a Cloudflare con aprobación |
 | Cambio normativo (Ley 21.719, vigencia modificada por la Ley 21.855) | Diseño conforme desde el inicio y revisión legal antes del lanzamiento |
@@ -241,6 +242,7 @@ Privacidad, datos sensibles e imágenes clínicas: [privacidad-y-cumplimiento.md
 | 7 | Contenido inicial: Anatomía quirúrgica, Cirugía ortognática, ATM, Crecimiento y desarrollo craneofacial, Traumatología maxilofacial | [`supabase/seed.sql`](../supabase/seed.sql), prueba 02 |
 | 8 | Identidad tipográfica provisional; sin logotipo definitivo | [identidad-visual.md](identidad-visual.md), [ADR-0011](adr/0011-identidad-visual-provisional.md) |
 | 9 | Ley 21.719: vigencia modificada al 15 de octubre de 2027 por la Ley 21.855 | [privacidad-y-cumplimiento.md](privacidad-y-cumplimiento.md) |
+| 10 | Política de exclusión documental obligatoria: sin DICOM, proyectos de planificación, casos clínicos, datos de pacientes ni presentaciones; libros permitidos; una copia por documento | [politica-de-exclusion-documental.md](politica-de-exclusion-documental.md), [ADR-0016](adr/0016-politica-de-exclusion-documental.md), migración 0800, prueba 09 |
 
 ## 13. Roadmap
 
@@ -248,7 +250,7 @@ Privacidad, datos sensibles e imágenes clínicas: [privacidad-y-cumplimiento.md
 | --- | --- | --- |
 | 0. Diseño y configuración | Esta documentación, modelo de datos probado, CI, identidad provisional | US$0 |
 | 1. Fundamentos | Sistema de diseño, navegación, dashboard con datos reales, taxonomía editable, páginas de tema, auth y roles | US$0 |
-| 2. Gestión documental | Carga, pipeline, metadatos, lector PDF, estados de distribución; resúmenes y traducción cuando haya presupuesto | US$0 sin IA |
+| 2. Gestión documental | Importador de Google Drive con política de exclusión, carga, pipeline, metadatos, lector PDF, estados de distribución; resúmenes y traducción cuando haya presupuesto | US$0 sin IA |
 | 3. PubMed | E-utilities, búsqueda y filtros, fichas, sincronización programada | US$0 |
 | 4. Inteligencia artificial | RAG, asistente general y por tema, modos, citas verificadas, cuotas | Requiere aprobación de gasto |
 | 5. Multimedia | Galerías, visor, video, esquemas, 3D, flujo de consentimiento | US$0 con video externo |

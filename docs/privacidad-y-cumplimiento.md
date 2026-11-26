@@ -35,7 +35,7 @@ Reglas aplicadas en la base de datos ([ADR-0012](adr/0012-privacidad-por-diseno-
 3. El documento de consentimiento **no se sube a la plataforma**: quien aporta lo conserva y registra solo una referencia interna.
 4. Al subir una imagen: eliminación de metadatos EXIF, alerta automática si se detectan rostros o texto (nombres, RUT, fechas) y checklist obligatorio para quien aporta y para el editor.
 5. No se aceptan nombres, RUT, fechas de nacimiento, números de ficha ni ningún identificador directo en títulos, leyendas o archivos.
-6. Los estudios DICOM (fase 7) se anonimizan en sus encabezados antes de almacenarse.
+6. Los estudios DICOM, los proyectos de planificación (ProPlan CMF, Mimics, 3-matic, IPS CaseDesigner), el contenido de carpetas de casos clínicos y de pacientes y las presentaciones **no se importan**: lo impide la [política de exclusión documental](politica-de-exclusion-documental.md) desde el inventario, y la base de datos rechaza sus formatos en cualquier ingreso.
 7. Las imágenes clínicas nunca se envían a servicios de IA sin anonimización previa.
 
 ## 4. Inteligencia artificial y privacidad
@@ -57,6 +57,7 @@ Ver [ADR-0006](adr/0006-obra-archivo-derivados-y-distribucion.md). En resumen: t
 - [ ] Procedimiento de respuesta a brechas de seguridad (detección, contención, notificación).
 - [ ] Modelo de consentimiento para imágenes clínicas validado institucionalmente.
 - [ ] Verificar que ninguna imagen publicada contenga datos identificables.
+- [ ] Revisar el inventario de exclusión: ningún archivo excluido o en cuarentena debe tener copia en Storage.
 - [ ] Revisar las licencias de todo documento con estado "público".
 - [ ] Confirmar las condiciones de privacidad de cada proveedor activado (Supabase, Vercel, Anthropic, Sentry).
 - [ ] Prueba de eliminación de cuenta y de exportación de datos propios.
