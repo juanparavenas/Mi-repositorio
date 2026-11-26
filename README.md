@@ -19,7 +19,7 @@ Biblioteca científica pública y plataforma académica colaborativa de Cirugía
 | [Costos](docs/costos.md) | Planes gratuitos, costo por servicio, por documento y por consulta; escenarios |
 | [Privacidad y cumplimiento](docs/privacidad-y-cumplimiento.md) | Normativa, datos sensibles, imágenes clínicas, verificación previa al lanzamiento |
 | [Política de exclusión documental](docs/politica-de-exclusion-documental.md) | Qué no se importa (DICOM, proyectos clínicos, presentaciones, duplicados), cuarentena y reglas del importador de Google Drive |
-| [Identidad visual](docs/identidad-visual.md) | Tipografía, color y espécimen provisional |
+| [Identidad visual](docs/identidad-visual.md) | Sistema de diseño con modo claro y oscuro, tokens, componentes y prototipo navegable |
 | [Dominio](docs/dominio.md) | Recomendación de dominio |
 | [Decisiones (ADR)](docs/adr/README.md) | Registro de decisiones de arquitectura |
 

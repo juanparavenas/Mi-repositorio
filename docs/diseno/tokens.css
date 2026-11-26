@@ -1,21 +1,29 @@
 /* =============================================================================
-   CMF Academy · Tokens de diseño PROVISIONALES (fase 0, ADR-0011)
-   Fuente única de colores, tipografía y espaciado. La fase 1 los importará en
-   el sistema de diseño de la aplicación.
+   CMF Academy · Tokens de diseño · v2 (sistema de diseño, modo claro y oscuro)
 
-   Contraste (WCAG 2.2) sobre --color-paper:
-     --color-ink 15.5:1 · --color-ink-2 8.1:1 · --color-ink-3 4.9:1 (AA)
-     --color-accent: petróleo 8.5:1 · azul 11.8:1
+   Fuente única de colores, tipografía, espaciado y movimiento. La aplicación
+   (fase 1) los importará tal cual.
+
+   Temas
+     · Por defecto sigue al sistema operativo (prefers-color-scheme).
+     · <html data-theme="light"> o data-theme="dark" fija el tema.
+     · <html data-accent="blue"> usa el acento alternativo; sin atributo, petróleo.
+       El acento definitivo está PENDIENTE de decisión del administrador.
+
+   Contraste: scripts/check_contrast.py verifica en CI que cada par de texto y
+   fondo cumpla WCAG 2.2 AA en los cuatro temas (claro/oscuro × petróleo/azul).
    ============================================================================= */
 
 :root {
+  color-scheme: light dark;
+
   /* --- Tipografía ---------------------------------------------------------- */
   --font-serif: "Newsreader", "Iowan Old Style", "Georgia", serif;
   --font-sans: "Inter", ui-sans-serif, system-ui, -apple-system, "Segoe UI", sans-serif;
   --font-mono: "IBM Plex Mono", ui-monospace, "SFMono-Regular", Menlo, monospace;
 
-  /* Escala de 6 niveles (base 16 px; razón ~1,25) */
-  --text-xs: 0.8125rem;   /* 13 px · metadatos, etiquetas */
+  --text-2xs: 0.75rem;    /* 12 px · solo etiquetas en versalitas */
+  --text-xs: 0.8125rem;   /* 13 px · metadatos */
   --text-sm: 0.875rem;    /* 14 px · interfaz densa, tablas */
   --text-base: 1rem;      /* 16 px · interfaz */
   --text-read: 1.125rem;  /* 18 px · lectura larga (serif) */
@@ -26,94 +34,146 @@
   --leading-tight: 1.2;
   --leading-ui: 1.45;
   --leading-read: 1.65;
-  --measure-read: 68ch;   /* ancho máximo de lectura */
+  --measure-read: 68ch;
 
-  /* --- Color: modo claro ----------------------------------------------------- */
-  --color-paper: #FBFAF7;         /* fondo blanco cálido */
-  --color-surface: #F3F1EC;       /* paneles, barra lateral */
-  --color-raised: #FFFFFF;        /* tarjetas y menús */
-  --color-ink: #1F2124;           /* texto grafito */
-  --color-ink-2: #4A4D53;         /* texto secundario */
-  --color-ink-3: #6B6E75;         /* metadatos; también borde de campos de formulario */
-  --color-border: #E3E0D8;        /* separadores decorativos */
-  --color-border-strong: #C9C5BB; /* separadores de tablas */
+  /* --- Espaciado (cuadrícula de 4/8 px) -------------------------------------- */
+  --space-1: 0.25rem;
+  --space-2: 0.5rem;
+  --space-3: 0.75rem;
+  --space-4: 1rem;
+  --space-5: 1.25rem;
+  --space-6: 1.5rem;
+  --space-8: 2rem;
+  --space-10: 2.5rem;
+  --space-12: 3rem;
+  --space-16: 4rem;
 
-  /* Acento: verde petróleo (recomendado). Alternativa: [data-accent="blue"]. */
-  --color-accent: #0F5257;
-  --color-accent-hover: #14666C;
-  --color-accent-tint: #E6F0EF;
-
-  /* Semánticos discretos, solo para niveles de evidencia y estados */
-  --color-ok: #2F6B3A;
-  --color-warn: #8A5A00;
-  --color-critical: #9B2C2C;
-
-  /* --- Espaciado, forma y movimiento ----------------------------------------- */
-  --space-1: 0.25rem;  /* 4 */
-  --space-2: 0.5rem;   /* 8 */
-  --space-3: 0.75rem;  /* 12 */
-  --space-4: 1rem;     /* 16 */
-  --space-6: 1.5rem;   /* 24 */
-  --space-8: 2rem;     /* 32 */
-  --space-12: 3rem;    /* 48 */
-  --space-16: 4rem;    /* 64 */
-
+  /* --- Forma ----------------------------------------------------------------- */
   --radius-sm: 4px;
   --radius: 6px;
+  --radius-lg: 10px;
+  --radius-pill: 999px;
   --border-width: 1px;
   --sidebar-width: 264px;
+  --topbar-height: 60px;
 
+  /* --- Movimiento ------------------------------------------------------------ */
   --duration-fast: 150ms;
   --duration: 200ms;
   --ease: cubic-bezier(0.2, 0, 0, 1);
+
+  /* --- Color: modo claro ------------------------------------------------------ */
+  --color-paper: #FBFAF7;          /* fondo de página, blanco cálido */
+  --color-surface: #F3F1EC;        /* barra lateral, paneles secundarios */
+  --color-raised: #FFFFFF;         /* tarjetas, menús, campos */
+  --color-sunken: #EEEBE5;         /* fondos de código, filas seleccionadas */
+  --color-ink: #1F2124;            /* texto principal */
+  --color-ink-2: #4A4D53;          /* texto secundario */
+  --color-ink-3: #686B72;          /* metadatos; borde de campos */
+  --color-border: #E3E0D8;         /* separadores decorativos */
+  --color-border-strong: #C9C5BB;  /* bordes de tablas y controles */
+  --color-overlay: rgb(20 21 23 / 0.45);
+  --shadow-pop: 0 8px 24px rgb(31 33 36 / 0.12), 0 1px 2px rgb(31 33 36 / 0.08);
+
+  --color-accent: #0F5257;         /* petróleo (provisional) */
+  --color-accent-hover: #14666C;
+  --color-accent-tint: #E6F0EF;
+  --color-on-accent: #FFFFFF;      /* texto sobre fondo de acento */
+
+  --color-ok: #2F6B3A;
+  --color-ok-tint: #E8F1E9;
+  --color-warn: #865700;
+  --color-warn-tint: #FBF0DA;
+  --color-critical: #9B2C2C;
+  --color-critical-tint: #F9E7E5;
+  --color-info: #2B5A87;
+  --color-info-tint: #E7EEF6;
+
+  --color-focus: var(--color-accent);
+  --color-selection: color-mix(in srgb, var(--color-accent) 18%, transparent);
 }
 
 :root[data-accent="blue"] {
   --color-accent: #1D3557;
   --color-accent-hover: #2A4A73;
   --color-accent-tint: #E8EDF4;
+  --color-on-accent: #FFFFFF;
 }
 
-/* --- Modo oscuro opcional -------------------------------------------------- */
+/* --- Modo oscuro ----------------------------------------------------------------
+   Grafito cálido, no negro puro. Los colores se aclaran para mantener el
+   contraste; el texto sobre el acento pasa a ser oscuro. Se declara dos veces:
+   por preferencia del sistema (si no se fijó el modo claro) y por elección
+   explícita (data-theme="dark"). check_contrast.py exige que ambas coincidan. */
 @media (prefers-color-scheme: dark) {
   :root:not([data-theme="light"]) {
-    --color-paper: #141517;
-    --color-surface: #1C1D20;
-    --color-raised: #222327;
+    --color-paper: #151618;
+    --color-surface: #1B1C1F;
+    --color-raised: #222428;
+    --color-sunken: #101113;
     --color-ink: #ECEAE4;
-    --color-ink-2: #B8B5AE;
-    --color-ink-3: #8F8C86;
-    --color-border: #2E2F33;
-    --color-border-strong: #3E3F44;
-    --color-accent: #5FB3B3;
-    --color-accent-hover: #7CC5C4;
-    --color-accent-tint: #1B2E2F;
+    --color-ink-2: #BDBAB3;
+    --color-ink-3: #97948D;
+    --color-border: #2C2E32;
+    --color-border-strong: #3F4146;
+    --color-overlay: rgb(0 0 0 / 0.6);
+    --shadow-pop: 0 8px 24px rgb(0 0 0 / 0.45), 0 0 0 1px rgb(255 255 255 / 0.04);
+
+    --color-accent: #6CC3C0;
+    --color-accent-hover: #8AD3D0;
+    --color-accent-tint: #172A2B;
+    --color-on-accent: #0B1C1D;
+
+    --color-ok: #7CC48A;
+    --color-ok-tint: #17261A;
+    --color-warn: #E2B65C;
+    --color-warn-tint: #2A2214;
+    --color-critical: #F0958D;
+    --color-critical-tint: #2E1A19;
+    --color-info: #8FB6E0;
+    --color-info-tint: #172231;
   }
   :root[data-accent="blue"]:not([data-theme="light"]) {
-    --color-accent: #8FB0DA;
-    --color-accent-hover: #A9C3E4;
-    --color-accent-tint: #1C2533;
+    --color-accent: #94B4DE;
+    --color-accent-hover: #ADC6E7;
+    --color-accent-tint: #1A2433;
+    --color-on-accent: #0E1726;
   }
 }
 
 :root[data-theme="dark"] {
-  --color-paper: #141517;
-  --color-surface: #1C1D20;
-  --color-raised: #222327;
+  --color-paper: #151618;
+  --color-surface: #1B1C1F;
+  --color-raised: #222428;
+  --color-sunken: #101113;
   --color-ink: #ECEAE4;
-  --color-ink-2: #B8B5AE;
-  --color-ink-3: #8F8C86;
-  --color-border: #2E2F33;
-  --color-border-strong: #3E3F44;
-  --color-accent: #5FB3B3;
-  --color-accent-hover: #7CC5C4;
-  --color-accent-tint: #1B2E2F;
+  --color-ink-2: #BDBAB3;
+  --color-ink-3: #97948D;
+  --color-border: #2C2E32;
+  --color-border-strong: #3F4146;
+  --color-overlay: rgb(0 0 0 / 0.6);
+  --shadow-pop: 0 8px 24px rgb(0 0 0 / 0.45), 0 0 0 1px rgb(255 255 255 / 0.04);
+
+  --color-accent: #6CC3C0;
+  --color-accent-hover: #8AD3D0;
+  --color-accent-tint: #172A2B;
+  --color-on-accent: #0B1C1D;
+
+  --color-ok: #7CC48A;
+  --color-ok-tint: #17261A;
+  --color-warn: #E2B65C;
+  --color-warn-tint: #2A2214;
+  --color-critical: #F0958D;
+  --color-critical-tint: #2E1A19;
+  --color-info: #8FB6E0;
+  --color-info-tint: #172231;
 }
 
 :root[data-theme="dark"][data-accent="blue"] {
-  --color-accent: #8FB0DA;
-  --color-accent-hover: #A9C3E4;
-  --color-accent-tint: #1C2533;
+  --color-accent: #94B4DE;
+  --color-accent-hover: #ADC6E7;
+  --color-accent-tint: #1A2433;
+  --color-on-accent: #0E1726;
 }
 
 @media (prefers-reduced-motion: reduce) {

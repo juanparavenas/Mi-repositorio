@@ -1,53 +1,84 @@
-# Identidad visual provisional
+# Identidad visual y sistema de diseño
 
-**Estado: provisional** ([ADR-0011](adr/0011-identidad-visual-provisional.md)). No hay logotipo definitivo aprobado. Estos lineamientos sirven de punto de partida para el sistema de diseño de la fase 1.
+**Estado:** sistema de diseño v2, con modo claro y oscuro. El logotipo y el color de acento siguen siendo provisionales ([ADR-0011](adr/0011-identidad-visual-provisional.md)): el acento definitivo está **pendiente de tu decisión**.
 
-![Espécimen tipográfico de CMF Academy en escritorio](diseno/especimen-escritorio.png)
+| Modo claro | Modo oscuro |
+| --- | --- |
+| ![Página de tema en modo claro](diseno/prototipo-claro.png) | ![Página de tema en modo oscuro](diseno/prototipo-oscuro.png) |
 
-Espécimen navegable: [`docs/diseno/especimen.html`](diseno/especimen.html). Se abre en cualquier navegador y permite cambiar el acento (petróleo o azul) y el modo oscuro. Tokens: [`docs/diseno/tokens.css`](diseno/tokens.css).
+## Archivos
+
+| Archivo | Contenido |
+| --- | --- |
+| [`diseno/tokens.css`](diseno/tokens.css) | Tokens: tipografía, escala, espaciado, forma, movimiento y colores de los cuatro temas |
+| [`diseno/estilos.css`](diseno/estilos.css) | Estilos base y componentes; usan solo tokens, sin colores fijos |
+| [`diseno/tema.js`](diseno/tema.js) | Selector de tema (Sistema, Claro, Oscuro) y de acento, con memoria en el navegador |
+| [`diseno/prototipo.html`](diseno/prototipo.html) | Prototipo navegable: Inicio, Biblioteca, página de tema, Asistente y Revisión de importación |
+| [`diseno/especimen.html`](diseno/especimen.html) | Espécimen tipográfico original de la fase 0 |
+
+Para verlo, abre `docs/diseno/prototipo.html` en un navegador desde una copia local del repositorio. GitHub muestra los HTML como código, no como página.
 
 ## Dirección
 
-Una publicación científica antes que una aplicación: el contenido manda y la interfaz se retira. Fondo blanco cálido, texto grafito, un solo color de acento, espacios amplios, bordes finos en lugar de sombras y tablas densas para la literatura. Se evitan degradados decorativos, tarjetas grandes, exceso de color y apariencia de plantilla.
+Una publicación científica antes que una aplicación: el contenido manda y la interfaz se retira. Fondo cálido, texto grafito, un solo color de acento, espacios amplios, bordes finos en lugar de sombras y tablas densas para la literatura. Se evitan degradados decorativos, tarjetas grandes, exceso de color y apariencia de plantilla.
+
+## Modo claro y oscuro
+
+- **Por defecto sigue al sistema operativo** (`prefers-color-scheme`). El selector de la barra superior permite fijar Claro u Oscuro; la elección se recuerda en el navegador y se aplica antes de pintar, sin destello.
+- El modo oscuro es grafito cálido (`#151618`), no negro puro. Los colores se aclaran para conservar el contraste y el texto sobre el acento pasa a ser oscuro (`--color-on-accent`); en el espécimen de la fase 0 era blanco y no alcanzaba el contraste mínimo.
+- Los componentes no usan colores fijos: cambiar de tema solo cambia los tokens.
+- Se respeta `prefers-reduced-motion` (sin transiciones).
 
 ## Tipografía
 
 | Uso | Familia | Por qué |
 | --- | --- | --- |
-| Títulos y lectura larga | **Newsreader** (serif, con tamaños ópticos) | Diseñada para lectura en pantalla; tono editorial y académico; los tamaños ópticos mantienen la elegancia en títulos grandes y la legibilidad en el cuerpo |
-| Interfaz, tablas, controles | **Inter** | Muy legible en tamaños pequeños; cifras tabulares para datos |
-| DOI, PMID, valores técnicos | **IBM Plex Mono** | Distingue identificadores que se copian y verifican |
+| Títulos y lectura larga | **Newsreader** (serif, con tamaños ópticos) | Diseñada para lectura en pantalla; tono editorial y académico |
+| Interfaz, tablas, controles | **Inter** | Muy legible en tamaños pequeños; cifras tabulares |
+| DOI, PMID, valores técnicos | **IBM Plex Mono** | Distingue los identificadores que se copian y verifican; no se cortan entre líneas |
 
-Las tres tienen licencia SIL Open Font License: son gratuitas y se pueden alojar en el propio sitio (la fase 1 las servirá con `next/font`, sin depender de Google Fonts en producción).
+Las tres tienen licencia SIL Open Font License; la fase 1 las servirá desde el propio sitio con `next/font`.
 
-**Escala (6 niveles, base 16 px):** 42 título de tema · 30 sección · 22 subtítulo · 18 lectura (serif, interlineado 1,65, máximo 68 caracteres por línea) · 14–16 interfaz · 13 metadatos.
+**Escala (base 16 px):** 42 título de tema · 30 sección · 22 subtítulo · 18 lectura (serif, interlineado 1,65, máximo 68 caracteres por línea) · 14–16 interfaz · 13 metadatos · 12 etiquetas en versalitas.
 
 ## Color
 
-| Token | Valor | Contraste sobre el fondo | Uso |
+| Token | Claro | Oscuro | Uso |
 | --- | --- | --- | --- |
-| Papel | `#FBFAF7` | — | Fondo blanco cálido |
-| Superficie | `#F3F1EC` | — | Barra lateral, paneles |
-| Grafito | `#1F2124` | 15,5:1 | Texto principal |
-| Grafito medio | `#4A4D53` | 8,1:1 | Texto secundario |
-| Grafito suave | `#6B6E75` | 4,9:1 | Metadatos; borde de campos de formulario |
-| **Petróleo** (recomendado) | `#0F5257` | 8,5:1 | Acento: enlaces, acciones, sección activa |
-| Azul oscuro (alternativa) | `#1D3557` | 11,8:1 | Acento alternativo |
+| `--color-paper` | `#FBFAF7` | `#151618` | Fondo de página |
+| `--color-surface` | `#F3F1EC` | `#1B1C1F` | Barra lateral, paneles secundarios |
+| `--color-raised` | `#FFFFFF` | `#222428` | Tarjetas, menús, campos |
+| `--color-ink` | `#1F2124` | `#ECEAE4` | Texto principal |
+| `--color-ink-2` | `#4A4D53` | `#BDBAB3` | Texto secundario |
+| `--color-ink-3` | `#686B72` | `#97948D` | Metadatos; borde de campos |
+| `--color-accent` (petróleo) | `#0F5257` | `#6CC3C0` | Enlaces, acciones, sección activa |
+| `--color-accent` (azul) | `#1D3557` | `#94B4DE` | Acento alternativo |
+| `--color-on-accent` | `#FFFFFF` | `#0B1C1D` / `#0E1726` | Texto sobre el acento |
+| `--color-ok` · `warn` · `critical` · `info` | apagados | aclarados | Estados, avisos y niveles de evidencia; cada uno con su fondo `-tint` |
 
-Todos los textos cumplen WCAG 2.2 nivel AA (mínimo 4,5:1); grafito, grafito medio y ambos acentos cumplen además AAA (7:1). Los colores semánticos (verde, ámbar, rojo apagados) se reservan para estados y niveles de evidencia.
+**Contraste verificado automáticamente.** [`scripts/check_contrast.py`](../scripts/check_contrast.py) revisa 36 pares de texto y fondo en los cuatro temas (claro u oscuro, petróleo o azul) y corre en la CI. Todos cumplen WCAG 2.2 AA: 4,5:1 para texto y 3:1 para bordes de controles y foco. El par más ajustado es el texto de metadatos sobre la barra lateral en modo claro, con 4,73:1. La prueba también exige que el modo oscuro del sistema y el elegido a mano definan los mismos colores.
 
-**Recomendación de acento: verde petróleo.** El azul oscuro es el color por defecto de muchas plataformas institucionales y de software genérico; el petróleo da una identidad más propia, mantiene la sobriedad científica y conserva excelente contraste. La decisión final es tuya: en el espécimen puedes comparar ambos.
+**Acento:** petróleo es la recomendación, porque da una identidad más propia que el azul institucional genérico; el prototipo permite comparar ambos. **La decisión sigue pendiente.**
+
+## Componentes
+
+Incluidos en `estilos.css` y usados en el prototipo:
+
+- **Estructura:** barra lateral persistente (264 px) que en el teléfono pasa a ser un menú deslizable que se cierra con Escape; barra superior con búsqueda global (⌘K / Ctrl+K) y selector de tema.
+- **Contenido:** migas de pan, índice lateral del tema, título, entradilla, metadatos, cuerpo de lectura y citas numeradas.
+- **Datos:** tablas densas y ordenables con DOI sin cortes, insignias de estado y de distribución, nivel de evidencia y cifras.
+- **Acciones y formularios:** botones (principal, secundario, discreto, peligro, pequeño, solo icono), controles segmentados, campos, selectores, casillas y avisos (información, advertencia, crítico, correcto).
+- **Navegación y asistente:** pestañas, árbol de temas, paneles, y el asistente con sus mensajes, la separación entre «lo que dicen las fuentes» y «la interpretación», la lista de fuentes y el cuadro de escritura.
 
 ## Logotipo provisional
 
-Logotipo tipográfico: "CMF" en grafito y "Academy" en el color de acento, en Newsreader seminegrita, con el subtítulo "The Oral & Maxillofacial Knowledge Platform" en versalitas pequeñas. **No es un logotipo definitivo**: un símbolo propio podrá diseñarse más adelante.
+Logotipo tipográfico: «CMF» en grafito y «Academy» en el color de acento, en Newsreader seminegrita, con el subtítulo «The Oral & Maxillofacial Knowledge Platform» en versalitas pequeñas. **No es un logotipo definitivo.**
 
 ## Principios de interfaz
 
-- Barra lateral persistente a la izquierda (264 px) y búsqueda global siempre visible.
-- Columna de lectura de unos 720 px con índice lateral fijo en las páginas de tema.
-- Cuadrícula de 8 px, bordes de 1 px, radios de 6 px, transiciones de 150 a 200 ms (desactivadas si el usuario prefiere menos movimiento).
-- Un solo set de iconos de trazo fino.
-- Modo oscuro opcional con los mismos niveles de contraste.
-- Escritorio primero; en teléfono, sin desplazamiento horizontal (verificado en el espécimen a 390 px).
-- Créditos institucionales en el pie de página y en "Acerca de".
+- Cuadrícula de 4/8 px, bordes de 1 px, radios de 6 px (10 px en paneles), transiciones de 150 a 200 ms.
+- Un solo set de iconos de trazo fino (1,5 px).
+- Foco visible en todos los controles; navegación completa con teclado.
+- Escritorio primero; en el teléfono, sin desplazamiento horizontal (verificado a 390 px).
+- Los datos de ejemplo del prototipo se rotulan como tales; los artículos que muestra son reales y están verificados en PubMed.
+- Créditos institucionales en la barra lateral y en el pie de página.

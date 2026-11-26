@@ -46,13 +46,15 @@ jobs:
         run: supabase/tests/run.sh
 
   exclusion-policy:
-    name: Política de exclusión documental
+    name: Política de exclusión y contraste del diseño
     runs-on: ubuntu-24.04
     timeout-minutes: 5
     steps:
       - uses: actions/checkout@v4
-      - name: Pruebas del clasificador y sincronía con la base
+      - name: Pruebas del clasificador, sincronía con la base y contraste del diseño
         run: python3 -m unittest discover -s scripts/tests -v
+      - name: Contraste WCAG de los tokens (claro y oscuro)
+        run: python3 scripts/check_contrast.py
 
   docs:
     name: Enlaces de la documentación

@@ -18,6 +18,7 @@ Ocho fases (0 a 7). Cada una termina con un **pull request hacia `main`** que t�
 | Privacidad y cumplimiento | [privacidad-y-cumplimiento.md](privacidad-y-cumplimiento.md) |
 | Dominio | [dominio.md](dominio.md) |
 | Identidad tipográfica provisional | [identidad-visual.md](identidad-visual.md), tokens y espécimen |
+| Sistema de diseño v2 (adelanto de la fase 1.3) | Modo claro y oscuro con selector, tokens verificados por contraste en CI, componentes y prototipo navegable de cinco pantallas |
 | CI | GitHub Actions: pruebas de base de datos (PostgreSQL 16 y 17), pruebas del clasificador de exclusión, enlaces de la documentación, búsqueda de secretos |
 
 **Criterio de salida:** apruebas este PR y eliges el color de acento.
