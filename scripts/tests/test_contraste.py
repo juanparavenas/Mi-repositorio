@@ -1,4 +1,4 @@
-"""Pruebas de contraste de los tokens de diseño (claro y oscuro, petróleo y azul)."""
+"""Pruebas de contraste de los tokens de diseño (modo claro y oscuro, acento petróleo)."""
 
 import sys
 import tempfile
@@ -11,20 +11,21 @@ from check_contrast import TOKENS, check, load_themes, ratio  # noqa: E402
 
 
 class ContrasteTest(unittest.TestCase):
-    def test_los_cuatro_temas_cumplen_aa(self):
+    def test_claro_y_oscuro_cumplen_aa(self):
         self.assertEqual(check(), [])
 
-    def test_hay_cuatro_temas_y_el_oscuro_es_oscuro(self):
+    def test_hay_dos_temas_y_el_oscuro_es_oscuro(self):
         themes = load_themes()
-        self.assertEqual(len(themes), 4)
+        self.assertEqual(set(themes), {"claro", "oscuro"})
         for name, t in themes.items():
             light_paper = ratio(t["paper"], "#000000") > ratio(t["paper"], "#FFFFFF")
             self.assertEqual(light_paper, name.startswith("claro"), name)
 
     def test_texto_sobre_acento_cambia_en_modo_oscuro(self):
         t = load_themes()
-        self.assertEqual(t["claro · petróleo"]["on-accent"].upper(), "#FFFFFF")
-        self.assertNotEqual(t["oscuro · petróleo"]["on-accent"].upper(), "#FFFFFF")
+        self.assertEqual(t["claro"]["accent"].upper(), "#0F5257")
+        self.assertEqual(t["claro"]["on-accent"].upper(), "#FFFFFF")
+        self.assertNotEqual(t["oscuro"]["on-accent"].upper(), "#FFFFFF")
 
     def test_detecta_un_color_insuficiente(self):
         css = TOKENS.read_text(encoding="utf-8").replace("--color-ink-3: #686B72;", "--color-ink-3: #B0B0B0;", 1)

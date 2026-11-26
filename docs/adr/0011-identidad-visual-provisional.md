@@ -1,6 +1,6 @@
 # ADR-0011 · Identidad visual provisional
 
-- **Estado:** Aceptada como provisional (decisión 8 de la fase 0)
+- **Estado:** Aceptada. Acento definitivo: verde petróleo (decisión del administrador, 26-11-2026). El logotipo sigue siendo provisional.
 - **Fecha:** 2026-11-25
 
 ## Contexto
@@ -9,10 +9,10 @@ La identidad visual es prioritaria: editorial, científica, minimalista, sin apa
 
 ## Decisión
 
-- Fondo blanco cálido, texto grafito y un único color de acento. Se proponen dos acentos: **verde petróleo** (recomendado) y **azul oscuro**; el administrador elige.
+- Fondo blanco cálido, texto grafito y un único color de acento: **verde petróleo** (`#0F5257` en modo claro, `#6CC3C0` en modo oscuro), elegido por el administrador el 26-11-2026. El azul oscuro propuesto como alternativa se descarta.
 - Tipografía: **Newsreader** (serif editorial) para títulos y lectura larga, **Inter** para la interfaz e **IBM Plex Mono** para identificadores (DOI, PMID). Las tres tienen licencia libre (SIL OFL) y pueden alojarse en el propio sitio.
 - Logotipo **tipográfico provisional** ("CMF Academy" en Newsreader); no se considera definitivo.
-- Los valores viven como tokens CSS en `docs/diseno/tokens.css`, con contraste WCAG AA verificado.
+- Los valores viven como tokens CSS en `docs/diseno/tokens.css`, con modo claro y oscuro y contraste WCAG AA verificado en CI.
 
 ## Consecuencias
 

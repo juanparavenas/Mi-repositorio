@@ -7,11 +7,10 @@
    Temas
      · Por defecto sigue al sistema operativo (prefers-color-scheme).
      · <html data-theme="light"> o data-theme="dark" fija el tema.
-     · <html data-accent="blue"> usa el acento alternativo; sin atributo, petróleo.
-       El acento definitivo está PENDIENTE de decisión del administrador.
+     · Acento: verde petróleo, elegido por el administrador el 26-11-2026.
 
    Contraste: scripts/check_contrast.py verifica en CI que cada par de texto y
-   fondo cumpla WCAG 2.2 AA en los cuatro temas (claro/oscuro × petróleo/azul).
+   fondo cumpla WCAG 2.2 AA en modo claro y en modo oscuro.
    ============================================================================= */
 
 :root {
@@ -75,7 +74,7 @@
   --color-overlay: rgb(20 21 23 / 0.45);
   --shadow-pop: 0 8px 24px rgb(31 33 36 / 0.12), 0 1px 2px rgb(31 33 36 / 0.08);
 
-  --color-accent: #0F5257;         /* petróleo (provisional) */
+  --color-accent: #0F5257;         /* verde petróleo */
   --color-accent-hover: #14666C;
   --color-accent-tint: #E6F0EF;
   --color-on-accent: #FFFFFF;      /* texto sobre fondo de acento */
@@ -93,12 +92,6 @@
   --color-selection: color-mix(in srgb, var(--color-accent) 18%, transparent);
 }
 
-:root[data-accent="blue"] {
-  --color-accent: #1D3557;
-  --color-accent-hover: #2A4A73;
-  --color-accent-tint: #E8EDF4;
-  --color-on-accent: #FFFFFF;
-}
 
 /* --- Modo oscuro ----------------------------------------------------------------
    Grafito cálido, no negro puro. Los colores se aclaran para mantener el
@@ -133,12 +126,6 @@
     --color-info: #8FB6E0;
     --color-info-tint: #172231;
   }
-  :root[data-accent="blue"]:not([data-theme="light"]) {
-    --color-accent: #94B4DE;
-    --color-accent-hover: #ADC6E7;
-    --color-accent-tint: #1A2433;
-    --color-on-accent: #0E1726;
-  }
 }
 
 :root[data-theme="dark"] {
@@ -169,12 +156,6 @@
   --color-info-tint: #172231;
 }
 
-:root[data-theme="dark"][data-accent="blue"] {
-  --color-accent: #94B4DE;
-  --color-accent-hover: #ADC6E7;
-  --color-accent-tint: #1A2433;
-  --color-on-accent: #0E1726;
-}
 
 @media (prefers-reduced-motion: reduce) {
   :root {

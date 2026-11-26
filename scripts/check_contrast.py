@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 """Verifica el contraste WCAG 2.2 de los tokens de diseño en los cuatro temas.
 
-Lee docs/diseno/tokens.css, arma los temas claro/oscuro × petróleo/azul y
+Lee docs/diseno/tokens.css, arma los temas claro y oscuro (acento petróleo) y
 comprueba cada par de texto y fondo que usa el sistema de diseño:
 
     · texto normal ≥ 4,5:1 (AA)
@@ -57,18 +57,13 @@ def _blocks(css: str) -> dict[str, dict[str, str]]:
 def load_themes(path: Path = TOKENS) -> dict[str, dict[str, str]]:
     b = _blocks(path.read_text(encoding="utf-8"))
     base = b[":root"]
-    blue = b[':root[data-accent="blue"]']
     media_dark = b[':root:not([data-theme="light"])']
-    media_dark_blue = b[':root[data-accent="blue"]:not([data-theme="light"])']
     dark = b[':root[data-theme="dark"]']
-    dark_blue = b[':root[data-theme="dark"][data-accent="blue"]']
-    if media_dark != dark or media_dark_blue != dark_blue:
+    if media_dark != dark:
         raise ValueError("El modo oscuro del sistema y el elegido a mano no definen los mismos colores")
     themes = {
-        "claro · petróleo": dict(base),
-        "claro · azul": {**base, **blue},
-        "oscuro · petróleo": {**base, **dark},
-        "oscuro · azul": {**base, **dark, **dark_blue},
+        "claro": dict(base),
+        "oscuro": {**base, **dark},
     }
     for t in themes.values():
         for k, v in list(t.items()):
@@ -124,4 +119,4 @@ if __name__ == "__main__":
     if problems:
         print("\n".join(["", "Contraste insuficiente:"] + problems))
         sys.exit(1)
-    print("Contraste verificado en los cuatro temas.")
+    print("Contraste verificado en modo claro y oscuro.")

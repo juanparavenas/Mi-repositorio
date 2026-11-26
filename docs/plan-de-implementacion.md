@@ -21,7 +21,7 @@ Ocho fases (0 a 7). Cada una termina con un **pull request hacia `main`** que t�
 | Sistema de diseño v2 (adelanto de la fase 1.3) | Modo claro y oscuro con selector, tokens verificados por contraste en CI, componentes y prototipo navegable de cinco pantallas |
 | CI | GitHub Actions: pruebas de base de datos (PostgreSQL 16 y 17), pruebas del clasificador de exclusión, enlaces de la documentación, búsqueda de secretos |
 
-**Criterio de salida:** apruebas este PR y eliges el color de acento.
+**Criterio de salida:** apruebas este PR. El color de acento ya está elegido: verde petróleo (26-11-2026).
 
 ---
 

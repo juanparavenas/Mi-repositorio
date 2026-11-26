@@ -240,7 +240,7 @@ Privacidad, datos sensibles e imágenes clínicas: [privacidad-y-cumplimiento.md
 | 5 | Servicios por fase: primero Supabase, Vercel y Anthropic (este último solo con aprobación); después NCBI, embeddings, Cloudflare, Sentry y correo | [infraestructura.md](infraestructura.md) |
 | 6 | Dominio: no se compra todavía | [dominio.md](dominio.md) |
 | 7 | Contenido inicial: Anatomía quirúrgica, Cirugía ortognática, ATM, Crecimiento y desarrollo craneofacial, Traumatología maxilofacial | [`supabase/seed.sql`](../supabase/seed.sql), prueba 02 |
-| 8 | Identidad tipográfica provisional; sin logotipo definitivo | [identidad-visual.md](identidad-visual.md), [ADR-0011](adr/0011-identidad-visual-provisional.md) |
+| 8 | Identidad tipográfica provisional; sin logotipo definitivo. Acento definitivo: verde petróleo (26-11-2026); modo claro y oscuro | [identidad-visual.md](identidad-visual.md), [ADR-0011](adr/0011-identidad-visual-provisional.md) |
 | 9 | Ley 21.719: vigencia modificada al 15 de octubre de 2027 por la Ley 21.855 | [privacidad-y-cumplimiento.md](privacidad-y-cumplimiento.md) |
 | 10 | Política de exclusión documental obligatoria: sin DICOM, proyectos de planificación, casos clínicos, datos de pacientes ni presentaciones; libros permitidos; una copia por documento | [politica-de-exclusion-documental.md](politica-de-exclusion-documental.md), [ADR-0016](adr/0016-politica-de-exclusion-documental.md), migración 0800, prueba 09 |
 

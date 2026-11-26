@@ -1,6 +1,6 @@
 # Identidad visual y sistema de diseño
 
-**Estado:** sistema de diseño v2, con modo claro y oscuro. El logotipo y el color de acento siguen siendo provisionales ([ADR-0011](adr/0011-identidad-visual-provisional.md)): el acento definitivo está **pendiente de tu decisión**.
+**Estado:** sistema de diseño v2, con modo claro y oscuro. **Acento definitivo: verde petróleo** (decisión del administrador, 26-11-2026). El logotipo sigue siendo provisional ([ADR-0011](adr/0011-identidad-visual-provisional.md)).
 
 | Modo claro | Modo oscuro |
 | --- | --- |
@@ -12,7 +12,7 @@
 | --- | --- |
 | [`diseno/tokens.css`](diseno/tokens.css) | Tokens: tipografía, escala, espaciado, forma, movimiento y colores de los cuatro temas |
 | [`diseno/estilos.css`](diseno/estilos.css) | Estilos base y componentes; usan solo tokens, sin colores fijos |
-| [`diseno/tema.js`](diseno/tema.js) | Selector de tema (Sistema, Claro, Oscuro) y de acento, con memoria en el navegador |
+| [`diseno/tema.js`](diseno/tema.js) | Selector de tema (Sistema, Claro, Oscuro), con memoria en el navegador |
 | [`diseno/prototipo.html`](diseno/prototipo.html) | Prototipo navegable: Inicio, Biblioteca, página de tema, Asistente y Revisión de importación |
 | [`diseno/especimen.html`](diseno/especimen.html) | Espécimen tipográfico original de la fase 0 |
 
@@ -51,14 +51,13 @@ Las tres tienen licencia SIL Open Font License; la fase 1 las servirá desde el 
 | `--color-ink` | `#1F2124` | `#ECEAE4` | Texto principal |
 | `--color-ink-2` | `#4A4D53` | `#BDBAB3` | Texto secundario |
 | `--color-ink-3` | `#686B72` | `#97948D` | Metadatos; borde de campos |
-| `--color-accent` (petróleo) | `#0F5257` | `#6CC3C0` | Enlaces, acciones, sección activa |
-| `--color-accent` (azul) | `#1D3557` | `#94B4DE` | Acento alternativo |
-| `--color-on-accent` | `#FFFFFF` | `#0B1C1D` / `#0E1726` | Texto sobre el acento |
+| `--color-accent` (verde petróleo) | `#0F5257` | `#6CC3C0` | Enlaces, acciones, sección activa |
+| `--color-on-accent` | `#FFFFFF` | `#0B1C1D` | Texto sobre el acento |
 | `--color-ok` · `warn` · `critical` · `info` | apagados | aclarados | Estados, avisos y niveles de evidencia; cada uno con su fondo `-tint` |
 
-**Contraste verificado automáticamente.** [`scripts/check_contrast.py`](../scripts/check_contrast.py) revisa 36 pares de texto y fondo en los cuatro temas (claro u oscuro, petróleo o azul) y corre en la CI. Todos cumplen WCAG 2.2 AA: 4,5:1 para texto y 3:1 para bordes de controles y foco. El par más ajustado es el texto de metadatos sobre la barra lateral en modo claro, con 4,73:1. La prueba también exige que el modo oscuro del sistema y el elegido a mano definan los mismos colores.
+**Contraste verificado automáticamente.** [`scripts/check_contrast.py`](../scripts/check_contrast.py) revisa 36 pares de texto y fondo en modo claro y en modo oscuro y corre en la CI. Todos cumplen WCAG 2.2 AA: 4,5:1 para texto y 3:1 para bordes de controles y foco. El par más ajustado es el texto de metadatos sobre la barra lateral en modo claro, con 4,73:1. La prueba también exige que el modo oscuro del sistema y el elegido a mano definan los mismos colores.
 
-**Acento:** petróleo es la recomendación, porque da una identidad más propia que el azul institucional genérico; el prototipo permite comparar ambos. **La decisión sigue pendiente.**
+**Acento:** verde petróleo, elegido por el administrador el 26-11-2026. Da una identidad propia, distinta del azul institucional genérico, y mantiene la sobriedad científica. El azul oscuro se descartó.
 
 ## Componentes
 

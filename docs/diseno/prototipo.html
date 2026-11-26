@@ -9,9 +9,8 @@
     /* Aplica el tema guardado antes de pintar, para evitar un destello. */
     (function () {
       try {
-        var t = localStorage.getItem("cmf-theme"), a = localStorage.getItem("cmf-accent");
+        var t = localStorage.getItem("cmf-theme");
         if (t === "light" || t === "dark") document.documentElement.setAttribute("data-theme", t);
-        if (a === "blue") document.documentElement.setAttribute("data-accent", "blue");
       } catch (e) {}
     })();
   </script>
@@ -73,10 +72,6 @@
       </label>
       <span class="spacer"></span>
       <div class="theme-controls">
-        <div class="segmented hide-sm" role="group" aria-label="Acento (pendiente de decisión)">
-          <button type="button" data-accent-option="petrol" aria-pressed="true">Petróleo</button>
-          <button type="button" data-accent-option="blue" aria-pressed="false">Azul</button>
-        </div>
         <div class="segmented" role="group" aria-label="Tema">
           <button type="button" data-theme-option="system" aria-pressed="true" title="Seguir al sistema">
             <svg class="icon" viewBox="0 0 24 24" aria-hidden="true"><rect x="3" y="4" width="18" height="12" rx="1.5"/><path d="M8 20h8M12 16v4"/></svg><span class="hide-sm">Sistema</span></button>

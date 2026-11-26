@@ -1,5 +1,5 @@
 /* =============================================================================
-   CMF Academy · Control de tema (Sistema / Claro / Oscuro) y acento
+   CMF Academy · Control de tema (Sistema / Claro / Oscuro)
    - "Sistema" quita data-theme y deja que mande prefers-color-scheme.
    - La elección se recuerda en este navegador (localStorage, si está
      disponible); si no lo está, la página funciona igual.
@@ -10,7 +10,6 @@
   "use strict";
   var root = document.documentElement;
   var KEY_THEME = "cmf-theme";
-  var KEY_ACCENT = "cmf-accent";
 
   function read(key) {
     try { return window.localStorage.getItem(key); } catch (e) { return null; }
@@ -26,16 +25,8 @@
       b.setAttribute("aria-pressed", String(b.getAttribute("data-theme-option") === (mode || "system")));
     });
   }
-  function applyAccent(accent) {
-    if (accent === "blue") root.setAttribute("data-accent", "blue");
-    else root.removeAttribute("data-accent");
-    document.querySelectorAll("[data-accent-option]").forEach(function (b) {
-      b.setAttribute("aria-pressed", String(b.getAttribute("data-accent-option") === (accent || "petrol")));
-    });
-  }
 
   applyTheme(read(KEY_THEME));
-  applyAccent(read(KEY_ACCENT));
 
   document.addEventListener("click", function (event) {
     var t = event.target.closest("[data-theme-option]");
@@ -43,13 +34,6 @@
       var mode = t.getAttribute("data-theme-option");
       write(KEY_THEME, mode);
       applyTheme(mode);
-      return;
-    }
-    var a = event.target.closest("[data-accent-option]");
-    if (a) {
-      var accent = a.getAttribute("data-accent-option");
-      write(KEY_ACCENT, accent);
-      applyAccent(accent);
       return;
     }
     var m = event.target.closest("[data-menu-toggle]");
