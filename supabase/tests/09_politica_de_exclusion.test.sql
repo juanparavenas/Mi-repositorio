@@ -67,8 +67,22 @@ begin
   values ('google_drive', encode(sha256('google_drive:drive-stl'::bytea), 'hex'), 'Maxilar.stl',
           'excluded', '{EXC-MODELO-3D-CLINICO}', 'modelo 3D en caso clínico', '1.0.0') returning id into v_model;
   insert into public.source_items (source, source_ref, source_fingerprint, display_name, decision, rule_codes, reason, policy_version)
-  values ('google_drive', 'drive-ppt', encode(sha256('google_drive:drive-ppt'::bytea), 'hex'), 'Clase.pptx',
-          'review_required', '{REV-PRESENTACION}', 'presentación', '1.0.0') returning id into v_pres;
+  values ('google_drive', 'drive-edu', encode(sha256('google_drive:drive-edu'::bytea), 'hex'), 'Craneo.stl',
+          'review_required', '{REV-MODELO-3D-EDUCATIVO}', 'modelo 3D en carpeta educativa', '1.0.0') returning id into v_pres;
+
+  -- Presentaciones y duplicados.
+  insert into public.source_items (source, source_fingerprint, display_name, decision, rule_codes, reason, policy_version)
+  values ('google_drive', encode(sha256('google_drive:drive-ppt'::bytea), 'hex'), 'Clase.pptx',
+          'excluded', '{EXC-PRESENTACION}', 'presentación: no se importa', '1.1.0');
+  perform tests.assert_raises(format($sql$
+    insert into public.source_items (source, source_fingerprint, display_name, decision, rule_codes, reason, policy_version)
+    values ('google_drive', %L, 'copia.pdf', 'excluded', '{EXC-DUPLICADO}', 'copia', '1.1.0')
+  $sql$, encode(sha256('google_drive:dup-sin-original'::bytea), 'hex')),
+    'un duplicado debe indicar la copia conservada', '23514');
+  insert into public.source_items (source, source_fingerprint, display_name, decision, rule_codes, reason,
+                                   policy_version, duplicate_of)
+  values ('google_drive', encode(sha256('google_drive:drive-dup'::bytea), 'hex'), 'copia.pdf',
+          'excluded', '{EXC-DUPLICADO}', 'copia sobrante', '1.1.0', v_quar);
 
   -- 3. Solo un elemento permitido puede tener un archivo.
   perform tests.assert_raises(format($sql$
@@ -127,7 +141,7 @@ begin
   select count(*) into v_count from public.files where id = v_file;
   perform tests.assert_eq(v_count, 1, 'el administrador ve el archivo bloqueado');
   select count(*) into v_count from public.source_items;
-  perform tests.assert_eq(v_count, 5, 'el administrador ve todo el inventario');
+  perform tests.assert_eq(v_count, 7, 'el administrador ve todo el inventario');
   perform tests.clear_authentication();
 
   -- 6. Liberaciones: siempre con revisión humana registrada.
@@ -139,11 +153,11 @@ begin
   perform tests.authenticate_as(v_editor);
   update public.source_items
      set decision = 'allowed', reviewed_by = v_editor, reviewed_at = now(),
-         review_notes = 'Sin fotografías de pacientes ni capturas; material propio'
+         review_notes = 'Modelo anatómico de un repositorio con licencia CC BY, sin datos de pacientes'
    where id = v_pres;
   perform tests.clear_authentication();
   perform tests.assert_eq((select decision from public.source_items where id = v_pres),
-    'allowed'::public.import_decision, 'un editor aprueba una presentación revisada');
+    'allowed'::public.import_decision, 'un editor aprueba un modelo educativo revisado');
 
   perform tests.authenticate_as(v_admin);
   perform tests.assert_raises(format($sql$

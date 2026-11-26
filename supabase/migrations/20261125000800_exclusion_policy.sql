@@ -25,6 +25,9 @@
 --     importaciones futuras por su huella (sha256 de fuente e identificador).
 --   · Liberar un elemento exige revisión humana registrada; las exclusiones
 --     duras (DICOM, proyectos nativos, datos de paciente) no se liberan nunca.
+--   · Las presentaciones no se importan (EXC-PRESENTACION) y de cada documento
+--     se importa una sola copia (EXC-DUPLICADO apunta a la conservada).
+--     Los libros y capítulos se importan con el flujo normal de derechos.
 -- =============================================================================
 
 -- El orden importa: de menos a más restrictivo.
@@ -66,7 +69,8 @@ insert into public.exclusion_rules (code, decision, releasable, title, policy_ve
   ('CUA-COMPRIMIDO', 'quarantined', true, 'Archivo comprimido de contenido desconocido', '1.0.0'),
   ('CUA-IMAGEN-CLINICA-POSIBLE', 'quarantined', true, 'Posible fotografía clínica', '1.0.0'),
   ('CUA-FORMATO-DESCONOCIDO', 'quarantined', true, 'Formato no reconocido', '1.0.0'),
-  ('REV-PRESENTACION', 'review_required', true, 'Presentación con revisión individual', '1.0.0'),
+  ('EXC-PRESENTACION', 'excluded', true, 'Presentación (PowerPoint, Keynote o Presentaciones de Google)', '1.1.0'),
+  ('EXC-DUPLICADO', 'excluded', true, 'Copia sobrante de un documento ya incluido', '1.1.0'),
   ('REV-MODELO-3D-EDUCATIVO', 'review_required', true, 'Modelo 3D en una carpeta declarada como educativa', '1.0.0');
 
 -- Extensiones que ningún ingreso acepta (importación o carga directa).
@@ -115,6 +119,8 @@ create table public.source_items (
   source_modified_at  timestamptz,
   decision            public.import_decision not null,
   rule_codes          text[] not null default '{}',
+  -- Copia conservada cuando este elemento es un duplicado (regla EXC-DUPLICADO).
+  duplicate_of        uuid references public.source_items (id) on delete restrict,
   reason              text not null check (char_length(reason) between 1 and 2000),
   detected_software   text,
   policy_version      text not null,
@@ -130,7 +136,11 @@ create table public.source_items (
   constraint source_items_excluded_without_ref
     check (decision <> 'excluded' or source_ref is null),
   constraint source_items_review_pair
-    check ((reviewed_by is null) = (reviewed_at is null))
+    check ((reviewed_by is null) = (reviewed_at is null)),
+  constraint source_items_duplicate_pair
+    check ((duplicate_of is not null) = ('EXC-DUPLICADO' = any (rule_codes))),
+  constraint source_items_not_self_duplicate
+    check (duplicate_of is distinct from id)
 );
 
 comment on table public.source_items is

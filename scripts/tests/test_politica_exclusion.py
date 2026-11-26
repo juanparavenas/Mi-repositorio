@@ -243,6 +243,34 @@ class CarpetasDeProgramasTest(PolicyTestCase):
         self.assertEqual(d.decision, "allowed")
 
 
+class DuplicadosTest(PolicyTestCase):
+    def test_se_conserva_una_sola_copia(self):
+        items = [item("Borba.pdf", "Ortognatica", "Abordajes"), item("Borba copia.pdf", "Ortognatica", "Secuencia"),
+                 item("Otro.pdf", "Ortognatica")]
+        recs = [{"name": "Borba.pdf", "doi": "10.1016/J.IJOM.2015.10.008", "folder_depth": 5, "size": 10},
+                {"name": "Borba copia.pdf", "doi": "10.1016/j.ijom.2015.10.008", "folder_depth": 5, "size": 10},
+                {"name": "Otro.pdf", "doi": "10.1/otro", "folder_depth": 4, "size": 5}]
+        out = self.policy.mark_duplicates(recs, self.policy.classify_all(items))
+        self.assertEqual(out[0].decision, "allowed")
+        self.assertEqual(out[1].rules, ["EXC-DUPLICADO"])
+        self.assertEqual(out[1].duplicate_of, 0)
+        self.assertEqual(out[2].decision, "allowed")
+
+    def test_grupos_por_sha_doi_o_pmid_encadenados(self):
+        items = [item(f"a{i}.pdf", "X") for i in range(3)]
+        recs = [{"name": "a0", "sha256": "aa", "size": 1}, {"name": "a1", "sha256": "aa", "pmid": "9", "size": 3},
+                {"name": "a2", "pmid": "9", "size": 2}]
+        out = self.policy.mark_duplicates(recs, self.policy.classify_all(items))
+        self.assertEqual([d.decision for d in out], ["excluded", "allowed", "excluded"])
+
+    def test_lo_excluido_no_compite(self):
+        items = [item("Clase.pptx", "X"), item("articulo.pdf", "X")]
+        recs = [{"name": "Clase.pptx", "doi": "10.1/x"}, {"name": "articulo.pdf", "doi": "10.1/x"}]
+        out = self.policy.mark_duplicates(recs, self.policy.classify_all(items))
+        self.assertEqual(out[0].rules, ["EXC-PRESENTACION"])
+        self.assertEqual(out[1].decision, "allowed")
+
+
 class ModelosYPresentacionesTest(PolicyTestCase):
     def test_stl_academico_no_se_excluye_automaticamente(self):
         d = self.one(item("Craneo anatomico.stl", "Anatomia"))
@@ -262,12 +290,24 @@ class ModelosYPresentacionesTest(PolicyTestCase):
         self.assertEqual(d.rules, ["REV-MODELO-3D-EDUCATIVO"])
         self.assertEqual(d.decision, "review_required")
 
-    def test_presentaciones_requieren_revision_individual(self):
+    def test_presentaciones_no_se_importan(self):
         for it in (item("Clase trauma.pptx", "Clases"), item("Clase.ppt", "Clases"), item("Charla.key", "Clases"),
-                   item("Seminario", "Clases", mime="application/vnd.google-apps.presentation")):
+                   item("Seminario", "Clases", mime="application/vnd.google-apps.presentation"),
+                   item("ATM + CORT.pptx", "Prótesis articular")):
             d = self.one(it)
-            self.assertEqual(d.rules, ["REV-PRESENTACION"], it.name)
-            self.assertEqual(d.decision, "review_required")
+            self.assertEqual(d.rules, ["EXC-PRESENTACION"], it.name)
+            self.assertEqual(d.decision, "excluded")
+        self.assertTrue(self.policy.rules["EXC-PRESENTACION"]["liberable"])
+
+    def test_presentacion_en_caso_clinico_tambien_se_excluye(self):
+        d = self.decide([item("plan.sppc", "Caso X"), item("Caso.pptx", "Caso X")])
+        self.assertEqual(d["Caso.pptx"].rules, ["EXC-PRESENTACION"])
+
+    def test_libros_y_capitulos_se_pueden_importar(self):
+        for it in (item("2005. Meneghini. Analisis facial clinico.pdf", "Libros"),
+                   item("Capitulo 14.pdf", "Libros"),
+                   item("Fundamentos.epub", "Libros")):
+            self.assertEqual(self.one(it).decision, "allowed", it.name)
 
     def test_comprimido_y_formato_desconocido(self):
         self.assertEqual(self.one(item("Libro.zip", "Libros")).rules, ["CUA-COMPRIMIDO"])

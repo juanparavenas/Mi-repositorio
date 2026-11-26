@@ -91,6 +91,7 @@ class Decision:
     reason: str
     software: str | None = None
     case_root: str | None = None
+    duplicate_of: int | None = None  # índice del registro conservado
 
 
 @dataclass
@@ -319,6 +320,12 @@ class Policy:
         if codes:
             return self._decide(codes, "; ".join(evidence), software, case_root)
 
+        # Las presentaciones no se importan (decisión del administrador, v1.1.0),
+        # estén o no dentro de un caso clínico o de una carpeta de programa.
+        if fmt == "presentacion":
+            return self._decide(["EXC-PRESENTACION"], "presentación: no se importa a CMF Academy",
+                                software, case_root)
+
         is_aux = self._matches(self.aux_re, name)
         is_ips = program is not None and program["id"] == "ips"
 
@@ -331,13 +338,13 @@ class Policy:
             if is_aux:
                 return self._decide(["EXC-AUXILIAR-SOFTWARE"], f"respaldo, temporal o auxiliar en {where}",
                                     software, case_root)
-            if case_root and is_ips and fmt not in ("documento", "presentacion"):
+            if case_root and is_ips and fmt != "documento":
                 return self._decide(["EXC-PROYECTO-IPS"], f"archivo de un caso de IPS CaseDesigner en {where}",
                                     software, case_root)
             if fmt == "modelo_3d":
                 return self._decide(["EXC-MODELO-3D-CLINICO"], f"modelo 3D en {where}", software, case_root)
             if case_root:
-                if fmt in ("documento", "presentacion"):
+                if fmt == "documento":
                     return self._decide(["CUA-DOCUMENTO-EN-CASO"], f"documento en {where}", software, case_root)
                 return self._decide(["EXC-DERIVADO-CASO"], f"archivo no documental en {where}",
                                     software, case_root)
@@ -357,8 +364,6 @@ class Policy:
             return self._decide(["CUA-MODELO-3D-SIN-PROCEDENCIA"], "modelo 3D sin procedencia académica acreditada")
         if fmt == "comprimido":
             return self._decide(["CUA-COMPRIMIDO"], "archivo comprimido de contenido desconocido")
-        if fmt == "presentacion":
-            return self._decide(["REV-PRESENTACION"], "presentación: revisión individual obligatoria")
         if fmt == "imagen" and self._matches(self.camera_re, name):
             return self._decide(["CUA-IMAGEN-CLINICA-POSIBLE"], "nombre de cámara o teléfono")
         if fmt in ("desconocido", "configuracion"):
@@ -370,6 +375,53 @@ class Policy:
     def classify_all(self, items: Sequence[Item]) -> list[Decision]:
         ctx = self.analyze(items)
         return [self.classify(item, ctx) for item in items]
+
+    def mark_duplicates(self, records: Sequence[dict], decisions: list[Decision]) -> list[Decision]:
+        """Conserva una sola copia de cada documento y marca las demás con EXC-DUPLICADO.
+
+        Cada registro puede traer ``sha256``, ``doi`` y ``pmid``; además ``folder_depth``
+        (profundidad de su carpeta) y ``size``. Se conserva la copia de la carpeta más
+        específica y, a igualdad, la más grande. Solo compite lo que de otro modo se
+        importaría (decisión ``allowed``). Devuelve una lista nueva de decisiones.
+        """
+        out = list(decisions)
+        parent = list(range(len(records)))
+
+        def find(i: int) -> int:
+            while parent[i] != i:
+                parent[i] = parent[parent[i]]
+                i = parent[i]
+            return i
+
+        first_by_key: dict[tuple[str, str], int] = {}
+        for i, rec in enumerate(records):
+            if decisions[i].decision != "allowed":
+                continue
+            for field_name in ("sha256", "doi", "pmid"):
+                value = (rec.get(field_name) or "").strip().lower()
+                if not value:
+                    continue
+                key = (field_name, value)
+                if key in first_by_key:
+                    parent[find(i)] = find(first_by_key[key])
+                else:
+                    first_by_key[key] = i
+        groups: dict[int, list[int]] = {}
+        for i in range(len(records)):
+            if decisions[i].decision == "allowed":
+                groups.setdefault(find(i), []).append(i)
+        for members in groups.values():
+            if len(members) < 2:
+                continue
+            keeper = max(members, key=lambda i: (records[i].get("folder_depth") or 0,
+                                                 records[i].get("size") or 0, -i))
+            for i in members:
+                if i != keeper:
+                    out[i] = self._decide(
+                        ["EXC-DUPLICADO"],
+                        f"copia sobrante: se conserva «{records[keeper].get('name', keeper)}»")
+                    out[i].duplicate_of = keeper
+        return out
 
     def _decide(self, codes: list[str], reason: str, software: str | None = None,
                 case_root: str | None = None) -> Decision:

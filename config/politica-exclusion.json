@@ -1,12 +1,12 @@
 {
   "$comentario": "Reglas de la política de exclusión documental de CMF Academy. Obligatoria para todo inventario, importación y carga. Documento canónico: docs/politica-de-exclusion-documental.md. Cambiar este archivo exige un pull request revisado por el administrador y subir 'version'.",
-  "version": "1.0.0",
-  "vigente_desde": "2026-11-25",
+  "version": "1.1.0",
+  "vigente_desde": "2026-11-26",
   "decisiones": {
     "allowed": "Puede importarse. Sigue el flujo normal de derechos de autor, distribución y permiso de IA.",
     "review_required": "Material potencialmente incorporable. No se copia ni se procesa hasta una revisión humana individual.",
     "quarantined": "Hay incertidumbre sobre si pertenece a un caso o proyecto clínico. No se copia ni se procesa hasta que un administrador lo revise.",
-    "excluded": "No se copia, no se procesa con IA, no se indexa, no se publica. Solo se registra en el inventario de exclusión con su motivo."
+    "excluded": "No se copia, no se procesa con IA, no se indexa, no se publica. Solo se registra en el inventario de exclusión con su motivo. Nunca se modifica el original en Google Drive."
   },
   "reglas": [
     {
@@ -136,11 +136,18 @@
       "descripcion": "Extensión o tipo MIME que la política no reconoce. Podría ser un formato propietario de un programa de planificación."
     },
     {
-      "codigo": "REV-PRESENTACION",
-      "decision": "review_required",
+      "codigo": "EXC-PRESENTACION",
+      "decision": "excluded",
       "liberable": true,
-      "titulo": "Presentación con revisión individual",
-      "descripcion": "PowerPoint, Keynote o Presentaciones de Google. Material potencialmente incorporable que se revisa una por una: fotografías de pacientes, datos clínicos, capturas de software y contenido protegido por derechos de autor."
+      "titulo": "Presentación (PowerPoint, Keynote o Presentaciones de Google)",
+      "descripcion": "Por decisión del administrador (26-11-2026), las presentaciones no se importan a CMF Academy: pueden contener fotografías de pacientes, datos clínicos, capturas de software y material protegido. Solo un administrador puede liberar una presentación concreta tras revisarla de forma individual."
+    },
+    {
+      "codigo": "EXC-DUPLICADO",
+      "decision": "excluded",
+      "liberable": true,
+      "titulo": "Copia sobrante de un documento ya incluido",
+      "descripcion": "Se importa una sola copia de cada documento. Las demás (mismo SHA-256, o mismo DOI o PMID) quedan registradas como duplicadas de la copia conservada y no se importan. Los archivos de Google Drive no se borran ni se modifican."
     },
     {
       "codigo": "REV-MODELO-3D-EDUCATIVO",
@@ -474,5 +481,23 @@
         "regla": "EXC-DICOM"
       }
     ]
+  },
+  "permitidos_explicitos": {
+    "descripcion": "Formatos que la política permite importar expresamente. Siguen el flujo normal de derechos de autor, distribución y permiso de IA (ADR-0006).",
+    "tipos": [
+      "Libros completos (PDF o EPUB)",
+      "Capítulos de libro",
+      "Artículos científicos",
+      "Apuntes y documentos propios"
+    ]
+  },
+  "duplicados": {
+    "criterios": [
+      "Mismo SHA-256 del contenido",
+      "Mismo DOI",
+      "Mismo PMID"
+    ],
+    "conservar": "La copia en la carpeta temática más específica para el documento; a igualdad, la de mayor tamaño (versión más completa) y luego la más antigua en Drive.",
+    "nota": "El importador decide con DOI o PMID cuando están en el inventario; el SHA-256 solo se calcula sobre archivos permitidos al momento de copiarlos (la base rechaza un segundo archivo con el mismo SHA-256)."
   }
 }
