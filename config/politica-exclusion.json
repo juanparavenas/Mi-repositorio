@@ -1,6 +1,6 @@
 {
   "$comentario": "Reglas de la política de exclusión documental de CMF Academy. Obligatoria para todo inventario, importación y carga. Documento canónico: docs/politica-de-exclusion-documental.md. Cambiar este archivo exige un pull request revisado por el administrador y subir 'version'.",
-  "version": "1.1.0",
+  "version": "1.1.1",
   "vigente_desde": "2026-11-26",
   "decisiones": {
     "allowed": "Puede importarse. Sigue el flujo normal de derechos de autor, distribución y permiso de IA.",
@@ -288,7 +288,10 @@
     "ficha cl[ií]nica",
     "\\bpaciente\\s*\\d+",
     "^\\[carpeta de paciente\\]$",
-    "^\\[caso cl[ií]nico\\]$"
+    "^\\[caso cl[ií]nico\\]$",
+    "\\bpcte\\.?\\s*\\d*",
+    "^cc\\.\\s",
+    "^casos? cl[ií]nicos?\\b"
   ],
   "patrones_carpeta_estudio": [
     "^tc$",
@@ -397,7 +400,14 @@
       "odp"
     ],
     "presentacion_mime": [
-      "application/vnd.google-apps.presentation"
+      "application/vnd.apple.keynote",
+      "application/vnd.google-apps.presentation",
+      "application/vnd.ms-powerpoint",
+      "application/vnd.ms-powerpoint.presentation.macroenabled.12",
+      "application/vnd.oasis.opendocument.presentation",
+      "application/vnd.openxmlformats-officedocument.presentationml.presentation",
+      "application/vnd.openxmlformats-officedocument.presentationml.slideshow",
+      "application/vnd.openxmlformats-officedocument.presentationml.template"
     ],
     "documento": [
       "pdf",
@@ -414,8 +424,16 @@
       "csv"
     ],
     "documento_mime": [
+      "application/epub+zip",
+      "application/msword",
+      "application/rtf",
       "application/vnd.google-apps.document",
-      "application/vnd.google-apps.spreadsheet"
+      "application/vnd.google-apps.spreadsheet",
+      "application/vnd.ms-excel",
+      "application/vnd.oasis.opendocument.spreadsheet",
+      "application/vnd.oasis.opendocument.text",
+      "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet",
+      "application/vnd.openxmlformats-officedocument.wordprocessingml.document"
     ],
     "imagen": [
       "jpg",

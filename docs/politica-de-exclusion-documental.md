@@ -3,7 +3,7 @@
 | | |
 | --- | --- |
 | Estado | **Obligatoria** para todo inventario, importación y carga de documentos |
-| Versión | 1.1.0 (26-11-2026) |
+| Versión | 1.1.1 (26-11-2026) |
 | Decisión | [ADR-0016](adr/0016-politica-de-exclusion-documental.md) |
 | Reglas ejecutables | [`config/politica-exclusion.json`](../config/politica-exclusion.json) |
 | Clasificador de referencia | [`scripts/politica_exclusion.py`](../scripts/politica_exclusion.py) (pruebas en [`scripts/tests/`](../scripts/tests/test_politica_exclusion.py)) |
@@ -66,11 +66,11 @@ Una carpeta es **de caso clínico** cuando contiene un proyecto nativo, un estud
 
 ### 2.5 Datos de pacientes
 
-Carpetas de pacientes, protocolos operatorios, epicrisis, fichas clínicas y archivos con nombres, RUT, fechas de nacimiento o números de ficha (`EXC-DATOS-PACIENTE`). Excluidos sin liberación posible. Las imágenes clínicas con consentimiento y anonimización siguen su propio flujo ([privacidad-y-cumplimiento.md](privacidad-y-cumplimiento.md), sección 3), nunca la importación masiva.
+Carpetas de pacientes (también abreviadas: «PCTE 1 - …», «CC. Nombre Apellido», «Caso clínico»), protocolos operatorios, epicrisis, fichas clínicas y archivos con nombres, RUT, fechas de nacimiento o números de ficha (`EXC-DATOS-PACIENTE`). Todo lo que está dentro de una carpeta de paciente se excluye, incluidas sus subcarpetas por fecha. Excluidos sin liberación posible. Las imágenes clínicas con consentimiento y anonimización siguen su propio flujo ([privacidad-y-cumplimiento.md](privacidad-y-cumplimiento.md), sección 3), nunca la importación masiva.
 
 ### 2.6 Presentaciones
 
-Por decisión del administrador (26-11-2026), las **presentaciones no se importan** (`EXC-PRESENTACION`): PowerPoint (`.ppt`, `.pptx`, `.pps`, `.ppsx`, `.pot`, `.potx`), Keynote (`.key`), OpenDocument (`.odp`) y Presentaciones de Google. Suelen contener fotografías de pacientes, datos clínicos, capturas de software y material protegido. Un administrador puede liberar una presentación concreta después de revisarla de forma individual.
+Por decisión del administrador (26-11-2026), las **presentaciones no se importan** (`EXC-PRESENTACION`): PowerPoint (`.ppt`, `.pptx`, `.pps`, `.ppsx`, `.pot`, `.potx`), Keynote (`.key`), OpenDocument (`.odp`) y Presentaciones de Google. Se reconocen por la extensión o, si el nombre no la muestra, por el tipo MIME. Suelen contener fotografías de pacientes, datos clínicos, capturas de software y material protegido. Un administrador puede liberar una presentación concreta después de revisarla de forma individual.
 
 ### 2.7 Duplicados
 
@@ -136,13 +136,13 @@ Migración 0800, verificada por la prueba 09:
 
 ## 8. Aplicación al inventario actual
 
-Inventario de Drive del 25-11-2026, reclasificado con la versión 1.1.0 (`Inventario_CMF_Academy.xlsx`, hoja «Inventario de exclusión», e `Inventario_Exclusion_CMF_Academy.csv`, entregados al administrador fuera del repositorio):
+Inventario de Drive del 25-11-2026, reclasificado con la versión 1.1.1 (`Inventario_CMF_Academy.xlsx`, hoja «Inventario de exclusión», e `Inventario_Exclusion_CMF_Academy.csv`, entregados al administrador fuera del repositorio):
 
 | Decisión | Archivos | Detalle |
 | --- | --- | --- |
-| Permitido | 1.782 | Pasan al flujo de derechos de autor |
-| Excluido | 465 | 282 datos de pacientes, 100 DICOM, 71 presentaciones, 50 de sistema, 38 copias sobrantes por DOI o PMID, 14 auxiliares de software, 7 modelos 3D clínicos, 1 proyecto de ProPlan, 1 de Mimics, 1 exportación de caso |
-| Cuarentena | 319 | 182 posibles fotografías clínicas, 103 en carpetas de ProPlan, 33 formatos desconocidos, 1 comprimido |
+| Permitido | 1.777 | Pasan al flujo de derechos de autor |
+| Excluido | 528 | 344 datos de pacientes, 100 DICOM, 72 presentaciones, 50 de sistema, 38 copias sobrantes por DOI o PMID, 14 auxiliares de software, 7 modelos 3D clínicos, 1 proyecto de ProPlan, 1 de Mimics, 1 exportación de caso |
+| Cuarentena | 261 | 135 posibles fotografías clínicas, 103 en carpetas de ProPlan, 22 formatos desconocidos, 1 comprimido |
 
 Además, 13 ramas de carpetas no se recorrieron: 3 de pacientes (excluidas), 1 de configuración de ProPlan (cuarentena) y 9 fuera de alcance (cursos de pregrado, documentos personales y audios). Los duplicados por nombre y tamaño sin DOI ni PMID se resolverán con el SHA-256 al importar.
 
@@ -154,3 +154,4 @@ La política se modifica solo mediante un pull request revisado por el administr
 | --- | --- | --- |
 | 1.0.0 | 25-11-2026 | DICOM; ProPlan CMF, Mimics, 3-matic e IPS CaseDesigner; casos clínicos; modelos 3D; cuarentena; presentaciones con revisión individual |
 | 1.1.0 | 26-11-2026 | Presentaciones excluidas de la importación; libros y capítulos permitidos expresamente; una sola copia por documento |
+| 1.1.1 | 26-11-2026 | Correcciones al aplicar la política al inventario real: los formatos de Office y OpenDocument sin extensión visible se reconocen por su tipo MIME (una presentación había quedado en cuarentena como formato desconocido y 10 documentos de Word también); las carpetas de pacientes abreviadas («PCTE», «CC.», «Caso clínico») se reconocen como datos de pacientes |

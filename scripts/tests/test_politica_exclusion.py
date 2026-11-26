@@ -243,6 +243,35 @@ class CarpetasDeProgramasTest(PolicyTestCase):
         self.assertEqual(d.decision, "allowed")
 
 
+class TiposMimeYCarpetasDePacienteTest(PolicyTestCase):
+    """Regresiones encontradas al aplicar la política al inventario real (v1.1.1)."""
+
+    def test_presentacion_sin_extension_se_reconoce_por_mime(self):
+        mime = "application/vnd.openxmlformats-officedocument.presentationml.presentation"
+        d = self.one(item("Planilla PC ORT", "CMF UCH", mime=mime))
+        self.assertEqual(d.rules, ["EXC-PRESENTACION"])
+        for m in ("application/vnd.ms-powerpoint", "application/vnd.apple.keynote",
+                  "application/vnd.oasis.opendocument.presentation"):
+            self.assertEqual(self.one(item("Clase", "X", mime=m)).rules, ["EXC-PRESENTACION"], m)
+
+    def test_documento_office_sin_extension_se_permite(self):
+        for m in ("application/vnd.openxmlformats-officedocument.wordprocessingml.document", "application/msword",
+                  "application/epub+zip"):
+            self.assertEqual(self.one(item("Resumen", "Clases", mime=m)).decision, "allowed", m)
+
+    def test_carpetas_de_paciente_abreviadas(self):
+        for folders in (("Trauma", "Fracturas mandibulares", "PCTE 1 - Parasinfisis"),
+                        ("CMF UCH", "II", "CC. Nombre Apellido", "23-08-2024"),
+                        ("Cirugía Bucal", "Caso clínico", "Fotos"),
+                        ("Docencia", "Casos clínicos")):
+            d = self.one(item("IMG_0001.JPG", *folders))
+            self.assertIn("EXC-DATOS-PACIENTE", d.rules, folders)
+
+    def test_palabras_parecidas_no_son_carpetas_de_paciente(self):
+        for folders in (("Concepto", "Cirugía"), ("Accidentes",), ("CCMF",), ("Discusión de casos",)):
+            self.assertEqual(self.one(item("articulo.pdf", *folders)).decision, "allowed", folders)
+
+
 class DuplicadosTest(PolicyTestCase):
     def test_se_conserva_una_sola_copia(self):
         items = [item("Borba.pdf", "Ortognatica", "Abordajes"), item("Borba copia.pdf", "Ortognatica", "Secuencia"),
