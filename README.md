@@ -6,7 +6,7 @@ Biblioteca científica pública y plataforma académica colaborativa de Cirugía
 
 ## Estado
 
-**Fase 0 · Diseño y configuración.** Este repositorio contiene la arquitectura, las decisiones, el modelo de datos probado, la documentación de infraestructura y costos, y la identidad visual provisional. Todavía no hay aplicación desplegada ni servicios activados, y ninguno que cobre se activará sin aprobación explícita del administrador.
+**Fase 1 · Fundamentos (en curso).** La fase 0 (arquitectura, decisiones, modelo de datos probado, política de exclusión documental y sistema de diseño) está integrada en `main`. La aplicación web ya tiene andamiaje, sistema de diseño con modo claro y oscuro, y navegación; todavía no está conectada a la base de datos ni desplegada. Ningún servicio que cobre se activará sin aprobación explícita del administrador.
 
 ## Documentación
 
@@ -27,6 +27,11 @@ Biblioteca científica pública y plataforma académica colaborativa de Cirugía
 
 ```text
 .
+├── apps/web/                # Aplicación Next.js (App Router, TypeScript estricto)
+│   ├── src/app/             # Rutas: las siete secciones, búsqueda y sistema de diseño
+│   ├── src/components/      # Estructura, navegación, selector de tema y componentes
+│   ├── src/styles/          # tokens.css (fuente única de diseño) y estilos.css
+│   └── e2e/                 # Pruebas de extremo a extremo y de accesibilidad
 ├── docs/                    # Arquitectura, decisiones (adr/) y diseño (diseno/)
 ├── config/                  # Reglas versionadas (política de exclusión documental)
 ├── supabase/
@@ -38,9 +43,33 @@ Biblioteca científica pública y plataforma académica colaborativa de Cirugía
 └── .env.example             # Variables de entorno necesarias (sin valores)
 ```
 
-La estructura completa prevista para la aplicación (`apps/web`, `services/worker`, `packages/`) se crea en la fase 1; ver [arquitectura](docs/arquitectura.md).
+El worker de procesamiento (`services/worker`) se crea en la fase 2; ver [arquitectura](docs/arquitectura.md).
 
-## Pruebas
+## Aplicación web
+
+Requiere Node.js 22 o superior y pnpm (`corepack enable`).
+
+```bash
+pnpm install
+```
+
+```bash
+pnpm dev
+```
+
+La aplicación queda en `http://localhost:3000`. Verificaciones (las mismas que corre la CI):
+
+```bash
+pnpm format:check && pnpm lint && pnpm typecheck && pnpm test
+```
+
+```bash
+pnpm build && pnpm e2e
+```
+
+Las pruebas de extremo a extremo necesitan Chromium (`pnpm --filter @cmf/web exec playwright install chromium`).
+
+## Pruebas del modelo de datos y de las reglas
 
 Requiere PostgreSQL 15 o superior con las extensiones `vector`, `ltree`, `pg_trgm`, `unaccent` y `citext`:
 

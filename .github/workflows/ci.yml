@@ -56,6 +56,34 @@ jobs:
       - name: Contraste WCAG de los tokens (claro y oscuro)
         run: python3 scripts/check_contrast.py
 
+  web:
+    name: Aplicación web (lint, tipos, pruebas, compilación y extremo a extremo)
+    runs-on: ubuntu-24.04
+    timeout-minutes: 20
+    steps:
+      - uses: actions/checkout@v4
+      - uses: pnpm/action-setup@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: pnpm
+      - name: Dependencias
+        run: pnpm install --frozen-lockfile
+      - name: Formato
+        run: pnpm format:check
+      - name: Lint
+        run: pnpm lint
+      - name: Tipos
+        run: pnpm typecheck
+      - name: Pruebas unitarias
+        run: pnpm test
+      - name: Compilación
+        run: pnpm build
+      - name: Navegador para las pruebas
+        run: pnpm --filter @cmf/web exec playwright install --with-deps chromium
+      - name: Pruebas de extremo a extremo (escritorio y teléfono, accesibilidad WCAG 2.2 AA)
+        run: pnpm e2e
+
   docs:
     name: Enlaces de la documentación
     runs-on: ubuntu-24.04

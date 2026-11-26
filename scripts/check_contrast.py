@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 """Verifica el contraste WCAG 2.2 de los tokens de diseño en los cuatro temas.
 
-Lee docs/diseno/tokens.css, arma los temas claro y oscuro (acento petróleo) y
+Lee apps/web/src/styles/tokens.css, arma los temas claro y oscuro (acento petróleo) y
 comprueba cada par de texto y fondo que usa el sistema de diseño:
 
     · texto normal ≥ 4,5:1 (AA)
@@ -19,7 +19,7 @@ import re
 import sys
 from pathlib import Path
 
-TOKENS = Path(__file__).resolve().parent.parent / "docs" / "diseno" / "tokens.css"
+TOKENS = Path(__file__).resolve().parent.parent / "apps" / "web" / "src" / "styles" / "tokens.css"
 
 TEXT = 4.5
 UI = 3.0

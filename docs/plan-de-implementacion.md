@@ -31,11 +31,11 @@ Ocho fases (0 a 7). Cada una termina con un **pull request hacia `main`** que t�
 
 | PR | Contenido | Criterio de aceptación |
 | --- | --- | --- |
-| 1.1 Andamiaje | Monorepo pnpm, `apps/web` (Next.js + TypeScript estricto), lint, formato, Vitest, Playwright, CI ampliada | CI verde; `pnpm dev` levanta la aplicación |
+| 1.1 Andamiaje ✅ | Monorepo pnpm, `apps/web` (Next.js + TypeScript estricto), lint, formato, Vitest, Playwright, CI ampliada | CI verde; `pnpm dev` levanta la aplicación |
 | 1.2 Supabase | Proyecto Free de desarrollo, migraciones aplicadas, tipos generados, clientes de servidor y navegador | Las pruebas SQL pasan también contra el proyecto real; RLS verificada desde la API |
-| 1.3 Sistema de diseño | Tokens, tipografía alojada en el propio sitio, componentes base (botón, campo, tabla, insignia, panel, navegación), modo oscuro, accesibilidad con teclado | Página de componentes; contraste AA verificado automáticamente |
+| 1.3 Sistema de diseño ✅ | Tokens, tipografía alojada en el propio sitio, componentes base (botón, campo, tabla, insignia, panel, navegación), modo oscuro, accesibilidad con teclado | Página de componentes; contraste AA verificado automáticamente |
 | 1.4 Autenticación y roles | Google y enlace mágico, doble factor para editores, asignación del administrador inicial, guardas en el servidor | Pruebas de extremo a extremo: visitante, miembro, editor y administrador ven lo que corresponde |
-| 1.5 Navegación y layout | Barra lateral de 7 secciones, barra superior, búsqueda de temas, pie con créditos | Navegación completa con teclado; sin desplazamiento horizontal en teléfono |
+| 1.5 Navegación y layout ✅ | Barra lateral de 7 secciones, barra superior, búsqueda de temas, pie con créditos | Navegación completa con teclado; sin desplazamiento horizontal en teléfono |
 | 1.6 Biblioteca jerárquica | Explorador del árbol, rutas legibles (`/biblioteca/...`), migas de pan | Los 51 temas de la semilla navegables; un tema nuevo aparece sin tocar código |
 | 1.7 Páginas de tema | Encabezado y secciones A–H (vacías donde no hay datos, sin contenido simulado); versiones y revisión editorial | Un editor crea, revisa y publica una sección; el visitante solo ve lo publicado |
 | 1.8 Administración de taxonomía | Crear, editar, mover, ordenar y relacionar temas; publicar | Mover un subárbol desde la interfaz actualiza rutas y navegación |
@@ -43,6 +43,8 @@ Ocho fases (0 a 7). Cada una termina con un **pull request hacia `main`** que t�
 | 1.10 Institucional | Acerca de, créditos, borradores de términos, privacidad y política de derechos de autor | Revisión de textos por ti |
 
 **Criterio de salida:** despliegue de vista previa en Vercel Hobby (no público) con la taxonomía inicial publicada por ti.
+
+**Avance:** 1.1, 1.3 y 1.5 están completas (✅). 1.2 (Supabase) y la vista previa en Vercel necesitan que crees las cuentas gratuitas; 1.4 y 1.6–1.10 dependen de 1.2.
 
 ---
 

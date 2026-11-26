@@ -17,19 +17,13 @@
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500&family=Inter:wght@400;500;600&family=Newsreader:ital,opsz,wght@0,6..72,400;0,6..72,500;0,6..72,600;1,6..72,400&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="tokens.css">
-  <link rel="stylesheet" href="estilos.css">
+  <link rel="stylesheet" href="../../apps/web/src/styles/tokens.css">
+  <link rel="stylesheet" href="../../apps/web/src/styles/estilos.css">
   <style>
     [data-screen] { display: none; }
     [data-screen].is-active { display: block; }
     .hero { padding: var(--space-8) 0 var(--space-6); }
     .hero .search { max-width: 680px; padding: 12px var(--space-4); font-size: var(--text-base); border-radius: var(--radius-lg); }
-    .area-list { list-style: none; margin: 0; padding: 0; }
-    .area-list li { display: grid; grid-template-columns: 1fr auto; align-items: center; gap: var(--space-3); padding: var(--space-3) 0; border-top: var(--border-width) solid var(--color-border); }
-    .area-list li:first-child { border-top: 0; }
-    .area-list a { font-family: var(--font-serif); font-size: 1.125rem; color: var(--color-ink); text-decoration: none; font-variation-settings: "opsz" 18; }
-    .area-list a:hover { color: var(--color-accent); }
-    .area-list .sub { font-size: var(--text-xs); color: var(--color-ink-3); }
     .queue li { display: flex; justify-content: space-between; gap: var(--space-3); padding: var(--space-2) 0; font-size: var(--text-sm); border-top: var(--border-width) solid var(--color-border); }
     .queue li:first-child { border-top: 0; }
     .queue { list-style: none; margin: 0; padding: 0; }
